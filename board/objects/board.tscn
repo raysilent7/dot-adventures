@@ -1,3 +1,10 @@
 [gd_scene format=3 uid="uid://dxih7ata0fydt"]
 
+[ext_resource type="Script" uid="uid://cfts8lbp3ci1t" path="res://board/scripts/board.gd" id="1_drnn6"]
+[ext_resource type="Texture2D" uid="uid://ccg2fv3maqqmh" path="res://board/objects/square.png" id="2_nlxxq"]
+
 [node name="board" type="Node2D" unique_id=231839482]
+script = ExtResource("1_drnn6")
+tileSize = null
+numTiles = null
+tileTexture = ExtResource("2_nlxxq")
