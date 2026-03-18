@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var tileTexture: Texture2D
+@export var decorTexture: Texture2D
 @onready var player: Node2D = $player
 @onready var tiles: Node2D = $tiles
 
@@ -16,6 +17,7 @@ var drawnTiles = []
 func _ready():
 	generateMap()
 	drawMap()
+	fillEmptySpaces()
 	spawnPlayer()
 
 func generateMap():
@@ -58,11 +60,36 @@ func spawnPlayer():
 	updateVisibility(randomPos)
 
 func updateVisibility(playerTile: Vector2):
-	for pos in drawnTiles:
+	for pos in tileSprites:
 		var dist = pos.distance_to(playerTile)
 		var sprite = tileSprites[pos]
 
-		if dist <= visionRadius:
-			sprite.visible = true
-		else:
-			sprite.visible = false
+		sprite.visible = dist <= visionRadius
+
+func fillEmptySpaces():
+	var min_x = 99999
+	var max_x = -99999
+	var min_y = 99999
+	var max_y = -99999
+
+	for pos in map.keys():
+		min_x = min(min_x, pos.x)
+		max_x = max(max_x, pos.x)
+		min_y = min(min_y, pos.y)
+		max_y = max(max_y, pos.y)
+
+	min_x -= 4
+	max_x += 4
+	min_y -= 4
+	max_y += 4
+
+	for x in range(min_x, max_x + 4):
+		for y in range(min_y, max_y + 4):
+			var pos = Vector2(x, y)
+
+			if not map.has(pos):
+				var tile = Sprite2D.new()
+				tile.texture = decorTexture
+				tile.position = pos * tileSize + GameState.offset + GameState.diff
+				tiles.add_child(tile)
+				tileSprites[pos] = tile
