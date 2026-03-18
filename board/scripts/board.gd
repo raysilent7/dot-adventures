@@ -1,16 +1,21 @@
 extends Node2D
 
-@export var tileSize: int = 32
-@export var numTiles: int = 200
-@export var tileTexture: Texture2D
 
+@export var tileTexture: Texture2D
+@onready var player: Node2D = $player
+@onready var tiles: Node2D = $tiles
+
+var tileSize: int = 32
+var numTiles: int = 200
 var map = {}
 var boundary = []
 var directions = [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]
+var drawnTiles = []
 
 func _ready():
 	generateMap()
 	drawMap()
+	spawnPlayer()
 
 func generateMap():
 	var start = Vector2(0,0)
@@ -37,27 +42,14 @@ func countNeighbors(pos: Vector2) -> int:
 	return count
 
 func drawMap():
-	var minX = 999999
-	var maxX = -999999
-	var minY = 999999
-	var maxY = -999999
-
-	for pos in map.keys():
-		minX = min(minX, pos.x)
-		maxX = max(maxX, pos.x)
-		minY = min(minY, pos.y)
-		maxY = max(maxY, pos.y)
-
-	var totalWidth = (maxX - minX + 1) * tileSize
-	var totalHeight = (maxY - minY + 1) * tileSize
-
-	var offset = Vector2(-minX * tileSize, -minY * tileSize)
-	var screenCenter = get_viewport_rect().size / 2
-	var mapCenter = Vector2(totalWidth, totalHeight) / 2
-	var diff = screenCenter - mapCenter
-
 	for pos in map.keys():
 		var tile = Sprite2D.new()
 		tile.texture = tileTexture
-		tile.position = pos * tileSize + offset + diff
-		add_child(tile)
+		tile.position = pos * tileSize + GameState.offset + GameState.diff
+		tiles.add_child(tile)
+		drawnTiles.append(pos)
+
+func spawnPlayer():
+	var randomPos = drawnTiles[randi() % drawnTiles.size()]
+	player.position = randomPos * tileSize + GameState.offset + GameState.diff
+	player.setCurrentTile(randomPos)
