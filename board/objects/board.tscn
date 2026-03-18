@@ -2,9 +2,13 @@
 
 [ext_resource type="Script" uid="uid://cfts8lbp3ci1t" path="res://board/scripts/board.gd" id="1_drnn6"]
 [ext_resource type="Texture2D" uid="uid://ccg2fv3maqqmh" path="res://board/objects/square.png" id="2_nlxxq"]
+[ext_resource type="PackedScene" uid="uid://d1shvnbxdjalc" path="res://player/objects/player.tscn" id="3_s14mr"]
 
 [node name="board" type="Node2D" unique_id=231839482]
+z_index = -100
 script = ExtResource("1_drnn6")
-tileSize = null
-numTiles = null
 tileTexture = ExtResource("2_nlxxq")
+
+[node name="tiles" type="Node2D" parent="." unique_id=714023097]
+
+[node name="player" parent="." unique_id=1733245073 instance=ExtResource("3_s14mr")]

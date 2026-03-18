@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://d1shvnbxdjalc"]
+
+[ext_resource type="Texture2D" uid="uid://bt122vp5o2sax" path="res://player/objects/player.png" id="1_22sah"]
+[ext_resource type="Script" uid="uid://2yv6cokx3qeh" path="res://player/scripts/player.gd" id="1_noti6"]
+
+[node name="player" type="Node2D" unique_id=1733245073]
+script = ExtResource("1_noti6")
+
+[node name="playerBody" type="CharacterBody2D" parent="." unique_id=1053722366]
+
+[node name="playerCamera" type="Camera2D" parent="playerBody" unique_id=1568871994]
+zoom = Vector2(4.5, 4.5)
+position_smoothing_enabled = true
+
+[node name="playerSpr" type="Sprite2D" parent="playerBody" unique_id=2032499382]
+texture = ExtResource("1_22sah")
