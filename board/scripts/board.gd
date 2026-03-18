@@ -1,13 +1,14 @@
 extends Node2D
 
-
 @export var tileTexture: Texture2D
 @onready var player: Node2D = $player
 @onready var tiles: Node2D = $tiles
 
+var visionRadius: int = 2
 var tileSize: int = 32
 var numTiles: int = 200
 var map = {}
+var tileSprites = {}
 var boundary = []
 var directions = [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]
 var drawnTiles = []
@@ -48,8 +49,20 @@ func drawMap():
 		tile.position = pos * tileSize + GameState.offset + GameState.diff
 		tiles.add_child(tile)
 		drawnTiles.append(pos)
+		tileSprites[pos] = tile
 
 func spawnPlayer():
 	var randomPos = drawnTiles[randi() % drawnTiles.size()]
 	player.position = randomPos * tileSize + GameState.offset + GameState.diff
 	player.setCurrentTile(randomPos)
+	updateVisibility(randomPos)
+
+func updateVisibility(playerTile: Vector2):
+	for pos in drawnTiles:
+		var dist = pos.distance_to(playerTile)
+		var sprite = tileSprites[pos]
+
+		if dist <= visionRadius:
+			sprite.visible = true
+		else:
+			sprite.visible = false

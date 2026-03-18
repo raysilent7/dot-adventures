@@ -33,8 +33,10 @@ func _process(delta):
 func move(dir: Vector2):
 	var target = currentTile + dir
 	if map.has(target):
+		var board = get_tree().current_scene
 		isMoving = true
 		currentTile = target
+		board.updateVisibility(currentTile)
 		turnSprite(dir)
 		var targetCalc = currentTile * tileSize + GameState.offset + GameState.diff
 		var tween = create_tween()
@@ -50,7 +52,6 @@ func turnSprite(dir: Vector2):
 		sprite.rotation_degrees = 180
 	elif dir == Vector2(1, 0):
 		sprite.rotation_degrees = 0
-
 
 func setCurrentTile(tile: Vector2):
 	currentTile = tile
