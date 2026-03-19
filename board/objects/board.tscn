@@ -27,7 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.95000005)
+color = Color(0, 0, 0, 0.90000004)
 
 [node name="panel" type="Control" parent="mapUI" unique_id=1660437832]
 process_mode = 3
@@ -46,3 +46,46 @@ grow_vertical = 2
 script = ExtResource("5_3t3t1")
 
 [node name="mapContainer" type="Node2D" parent="mapUI/panel" unique_id=1492277250]
+
+[node name="subs" type="VBoxContainer" parent="mapUI" unique_id=1934265524]
+anchors_preset = -1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 168.0
+offset_bottom = 77.0
+pivot_offset = Vector2(40, 40)
+
+[node name="white" type="HBoxContainer" parent="mapUI/subs" unique_id=151321717]
+layout_mode = 2
+
+[node name="whiteColor" type="ColorRect" parent="mapUI/subs/white" unique_id=231510232]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+
+[node name="whiteSub" type="Label" parent="mapUI/subs/white" unique_id=738314431]
+layout_mode = 2
+text = "Area acessível"
+
+[node name="blue" type="HBoxContainer" parent="mapUI/subs" unique_id=942822348]
+layout_mode = 2
+
+[node name="blueColor" type="ColorRect" parent="mapUI/subs/blue" unique_id=959354186]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+color = Color(0, 0, 0.7642523, 1)
+
+[node name="blueSub" type="Label" parent="mapUI/subs/blue" unique_id=76916407]
+layout_mode = 2
+text = "Não acessível"
+
+[node name="green" type="HBoxContainer" parent="mapUI/subs" unique_id=1641518243]
+layout_mode = 2
+
+[node name="greenColor" type="ColorRect" parent="mapUI/subs/green" unique_id=1621869432]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+color = Color(0, 1, 0, 1)
+
+[node name="greenSub" type="Label" parent="mapUI/subs/green" unique_id=443709611]
+layout_mode = 2
+text = "Jogador (ponto atual)"
