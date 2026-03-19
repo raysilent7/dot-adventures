@@ -10,6 +10,7 @@ var tileSize: int = 32
 var numTiles: int = 200
 var map = {}
 var tileSprites = {}
+var seenTiles = {}
 var boundary = []
 var directions = [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]
 var drawnTiles = []
@@ -60,11 +61,16 @@ func spawnPlayer():
 	updateVisibility(randomPos)
 
 func updateVisibility(playerTile: Vector2):
-	for pos in tileSprites:
+	for pos in tileSprites.keys():
 		var dist = pos.distance_to(playerTile)
 		var sprite = tileSprites[pos]
 
-		sprite.visible = dist <= visionRadius
+		var visible = dist <= visionRadius
+		sprite.visible = visible
+
+		if visible:
+			seenTiles[pos] = true
+
 
 func fillEmptySpaces():
 	var min_x = 99999

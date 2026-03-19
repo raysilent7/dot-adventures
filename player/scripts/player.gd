@@ -13,6 +13,9 @@ func _ready():
 	map = board.map
 
 func _process(delta):
+	controlPlayerActions()
+
+func controlPlayerActions():
 	if isMoving:
 		return
 
