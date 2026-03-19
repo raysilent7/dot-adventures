@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ccg2fv3maqqmh" path="res://board/objects/square.png" id="2_nlxxq"]
 [ext_resource type="Texture2D" uid="uid://doy5xbyrn1xge" path="res://board/objects/square mountain.png" id="3_ls1qu"]
 [ext_resource type="PackedScene" uid="uid://d1shvnbxdjalc" path="res://player/objects/player.tscn" id="3_s14mr"]
+[ext_resource type="Script" uid="uid://4tqffu8737a1" path="res://board/scripts/mapUi.gd" id="5_3t3t1"]
 
 [node name="board" type="Node2D" unique_id=231839482]
 z_index = -100
@@ -14,3 +15,34 @@ decorTexture = ExtResource("3_ls1qu")
 [node name="tiles" type="Node2D" parent="." unique_id=714023097]
 
 [node name="player" parent="." unique_id=1733245073 instance=ExtResource("3_s14mr")]
+
+[node name="mapUI" type="CanvasLayer" parent="." unique_id=596509451]
+process_mode = 3
+layer = 10
+visible = false
+
+[node name="mapBG" type="ColorRect" parent="mapUI" unique_id=1768642939]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.95000005)
+
+[node name="panel" type="Control" parent="mapUI" unique_id=1660437832]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_3t3t1")
+
+[node name="mapContainer" type="Node2D" parent="mapUI/panel" unique_id=1492277250]
