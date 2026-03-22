@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var sprite = $playerBody/playerSpr
+@onready var sprite = $playerSpr
 
 var tileSize: int = 32
 var map = {}
@@ -9,8 +9,8 @@ var moveDuration: float = 0.4
 var isMoving = false
 
 func _ready():
-	var board = get_tree().current_scene
-	map = board.map
+	var scene = get_tree().current_scene
+	map = scene.map
 
 func _process(delta):
 	controlPlayerActions()
@@ -39,7 +39,10 @@ func move(dir: Vector2):
 		var board = get_tree().current_scene
 		isMoving = true
 		currentTile = target
-		board.updateVisibility(currentTile)
+
+		if not GameState.isInCity:
+			board.updateVisibility(currentTile)
+
 		turnSprite(dir)
 		var targetCalc = currentTile * tileSize + GameState.offset + GameState.diff
 		var tween = create_tween()
