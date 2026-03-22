@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://sgxywk4cv22f"]
+
+[ext_resource type="PackedScene" uid="uid://d1shvnbxdjalc" path="res://player/objects/player.tscn" id="1_ppux4"]
+[ext_resource type="Script" uid="uid://c6uxkiwy6kaxw" path="res://EAs/scripts/city.gd" id="1_v0l6n"]
+[ext_resource type="Texture2D" uid="uid://ccg2fv3maqqmh" path="res://board/objects/square.png" id="2_p6nnq"]
+[ext_resource type="Texture2D" uid="uid://dcx548832rpka" path="res://EAs/objects/square house.png" id="3_cg4pm"]
+[ext_resource type="Script" uid="uid://lir02y4c3apc" path="res://EAs/scripts/missionBoard.gd" id="5_eei1n"]
+[ext_resource type="Texture2D" uid="uid://dg5gv1k4gsdl2" path="res://EAs/objects/square board.png" id="5_p6nnq"]
+[ext_resource type="Script" uid="uid://xcrgrxxwglg" path="res://EAs/scripts/missionBoardUI.gd" id="7_a8exf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ppux4"]
+size = Vector2(32, 32)
+
+[node name="city" type="Node2D" unique_id=379210563]
+script = ExtResource("1_v0l6n")
+tileTexture = ExtResource("2_p6nnq")
+decorTexture = ExtResource("3_cg4pm")
+metadata/_edit_lock_ = true
+
+[node name="world" type="Node2D" parent="." unique_id=1478022341]
+
+[node name="tiles" type="Node2D" parent="world" unique_id=1801777014]
+metadata/_edit_lock_ = true
+
+[node name="missionBoard" type="Area2D" parent="world" unique_id=895188403]
+position = Vector2(16, 16)
+script = ExtResource("5_eei1n")
+
+[node name="boardSpr" type="Sprite2D" parent="world/missionBoard" unique_id=114146703]
+texture = ExtResource("5_p6nnq")
+
+[node name="boardCol" type="CollisionShape2D" parent="world/missionBoard" unique_id=1078082442]
+shape = SubResource("RectangleShape2D_ppux4")
+
+[node name="player" parent="world" unique_id=1733245073 instance=ExtResource("1_ppux4")]
+
+[node name="boardUI" type="CanvasLayer" parent="." unique_id=255346485]
+process_mode = 3
+layer = 10
+visible = false
+
+[node name="boardBG" type="ColorRect" parent="boardUI" unique_id=958231596]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.90000004)
+
+[node name="missionBoardUI" type="Control" parent="boardUI" unique_id=735043501]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_a8exf")
+metadata/_edit_lock_ = true
+
+[node name="panel" type="Panel" parent="boardUI/missionBoardUI" unique_id=2055441048]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="availableMissions" type="Label" parent="boardUI/missionBoardUI/panel" unique_id=1616536099]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -76.5
+offset_right = 76.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Missões disponíveis"
+
+[node name="missionList" type="VBoxContainer" parent="boardUI/missionBoardUI/panel" unique_id=1137084261]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -76.5
+offset_top = -20.0
+offset_right = 76.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="close" type="Button" parent="boardUI/missionBoardUI/panel" unique_id=480322980]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -30.5
+offset_top = -31.0
+offset_right = 30.5
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(40, 40)
+text = "Fechar"
+
+[connection signal="pressed" from="boardUI/missionBoardUI/panel/close" to="boardUI/missionBoardUI" method="onClosePressed"]

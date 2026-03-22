@@ -6,7 +6,7 @@ extends Control
 
 var min_x = 99999
 var min_y = 99999
-var tileSize = 8
+var tileSize = 16
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("map"):

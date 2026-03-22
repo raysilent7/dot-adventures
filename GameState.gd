@@ -1,8 +1,10 @@
 extends Node
 
+var isInCity: bool = true #padrao TRUE
+
 func _ready() -> void:
-	var board = get_tree().current_scene
-	calcOffsetAndDiff(board.map)
+	var scene = get_tree().current_scene
+	calcOffsetAndDiff(scene.map)
 
 #calculos de mapa
 var tileSize: int = 32

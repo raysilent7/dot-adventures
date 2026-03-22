@@ -2,8 +2,8 @@ extends Node2D
 
 @export var tileTexture: Texture2D
 @export var decorTexture: Texture2D
-@onready var player: Node2D = $player
-@onready var tiles: Node2D = $tiles
+@onready var player: Node2D = $world/player/playerBody
+@onready var tiles: Node2D = $world/tiles
 
 var visionRadius: int = 2
 var tileSize: int = 32
@@ -55,10 +55,13 @@ func drawMap():
 		tileSprites[pos] = tile
 
 func spawnPlayer():
+	print("Offset: " + str(GameState.offset))
+	print("Diff: " + str(GameState.diff))
 	var randomPos = drawnTiles[randi() % drawnTiles.size()]
 	player.position = randomPos * tileSize + GameState.offset + GameState.diff
 	player.setCurrentTile(randomPos)
 	updateVisibility(randomPos)
+	GameState.isInCity = false
 
 func updateVisibility(playerTile: Vector2):
 	for pos in tileSprites.keys():

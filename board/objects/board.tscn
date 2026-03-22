@@ -12,9 +12,11 @@ script = ExtResource("1_drnn6")
 tileTexture = ExtResource("2_nlxxq")
 decorTexture = ExtResource("3_ls1qu")
 
-[node name="tiles" type="Node2D" parent="." unique_id=714023097]
+[node name="world" type="Node2D" parent="." unique_id=1125477832]
 
-[node name="player" parent="." unique_id=1733245073 instance=ExtResource("3_s14mr")]
+[node name="tiles" type="Node2D" parent="world" unique_id=714023097]
+
+[node name="player" parent="world" unique_id=1733245073 instance=ExtResource("3_s14mr")]
 
 [node name="mapUI" type="CanvasLayer" parent="." unique_id=596509451]
 process_mode = 3
@@ -48,12 +50,10 @@ script = ExtResource("5_3t3t1")
 [node name="mapContainer" type="Node2D" parent="mapUI/panel" unique_id=1492277250]
 
 [node name="subs" type="VBoxContainer" parent="mapUI" unique_id=1934265524]
-anchors_preset = -1
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 168.0
-offset_bottom = 77.0
-pivot_offset = Vector2(40, 40)
+offset_right = 204.0
+offset_bottom = 97.0
 
 [node name="white" type="HBoxContainer" parent="mapUI/subs" unique_id=151321717]
 layout_mode = 2
