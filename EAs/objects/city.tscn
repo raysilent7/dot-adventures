@@ -60,12 +60,12 @@ script = ExtResource("7_a8exf")
 metadata/_edit_lock_ = true
 
 [node name="panel" type="Panel" parent="boardUI/missionBoardUI" unique_id=2055441048]
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(250, 250)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="availableMissions" type="Label" parent="boardUI/missionBoardUI/panel" unique_id=1616536099]
+[node name="title" type="Label" parent="boardUI/missionBoardUI/panel" unique_id=1616536099]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -105,4 +105,45 @@ grow_vertical = 0
 pivot_offset = Vector2(40, 40)
 text = "Fechar"
 
+[node name="confirmPopup" type="Window" parent="boardUI/missionBoardUI" unique_id=397593651]
+oversampling_override = 1.0
+size = Vector2i(400, 200)
+visible = false
+
+[node name="missionText" type="Label" parent="boardUI/missionBoardUI/confirmPopup" unique_id=1957293558]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="yes" type="Button" parent="boardUI/missionBoardUI/confirmPopup" unique_id=839675550]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 37.0
+grow_vertical = 0
+text = "Sim"
+
+[node name="no" type="Button" parent="boardUI/missionBoardUI/confirmPopup" unique_id=1222874259]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Não"
+
 [connection signal="pressed" from="boardUI/missionBoardUI/panel/close" to="boardUI/missionBoardUI" method="onClosePressed"]
+[connection signal="pressed" from="boardUI/missionBoardUI/confirmPopup/yes" to="boardUI/missionBoardUI" method="onYesPressed"]
+[connection signal="pressed" from="boardUI/missionBoardUI/confirmPopup/no" to="boardUI/missionBoardUI" method="onNoPressed"]

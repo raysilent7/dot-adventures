@@ -1,16 +1,15 @@
 extends Control
 
-@export var decorTexture: Texture2D
 @onready var mapContainer = $mapContainer
 @onready var mapUI = get_parent()
 
-var min_x = 99999
-var min_y = 99999
 var tileSize = 16
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("map"):
 		mapUI.visible = not mapUI.visible
+		mapUI.get_node("subs").visible = not mapUI.get_node("subs").visible
+		mapUI.get_node("mapPanel").visible = not mapUI.get_node("mapPanel").visible
 
 		if mapUI.visible:
 			get_tree().paused = true
@@ -26,19 +25,19 @@ func updateMap(seenTiles, tileSprites):
 	if seenTiles.size() == 0:
 		return
 
-	var min_x = 99999
-	var max_x = -99999
-	var min_y = 99999
-	var max_y = -99999
+	var minX = 99999
+	var maxX = -99999
+	var minY = 99999
+	var maxY = -99999
 
 	for pos in seenTiles.keys():
-		min_x = min(min_x, pos.x)
-		max_x = max(max_x, pos.x)
-		min_y = min(min_y, pos.y)
-		max_y = max(max_y, pos.y)
+		minX = min(minX, pos.x)
+		maxX = max(maxX, pos.x)
+		minY = min(minY, pos.y)
+		maxY = max(maxY, pos.y)
 
-	var width = (max_x - min_x + 1) * tileSize
-	var height = (max_y - min_y + 1) * tileSize
+	var width = (maxX - minX + 1) * tileSize
+	var height = (maxY - minY + 1) * tileSize
 
 	mapContainer.position = Vector2(
 		(size.x - width) / 2,
@@ -49,31 +48,34 @@ func updateMap(seenTiles, tileSprites):
 		var tile = ColorRect.new()
 
 		var sprite = tileSprites[pos]
-		var is_walkable = sprite.texture == get_tree().current_scene.tileTexture
+		var isWalkable = sprite.texture == get_tree().current_scene.tileTexture
+		var isMissionTile = sprite.texture == get_tree().current_scene.missionTexture
 
-		if is_walkable:
+		if isWalkable:
 			tile.color = Color.WHITE
+		elif isMissionTile:
+			tile.color = Color.YELLOW
 		else:
 			tile.color = Color.DARK_BLUE
 
 		tile.size = Vector2(tileSize, tileSize)
 
 		var normalized = Vector2(
-			pos.x - min_x,
-			pos.y - min_y
+			pos.x - minX,
+			pos.y - minY
 		)
 		tile.position = normalized * tileSize
 		
 		var board = get_tree().current_scene
-		var player_tile = board.player.currentTile
-		var normalized_player = Vector2(
-			player_tile.x - min_x,
-			player_tile.y - min_y
+		var playerTile = board.player.currentTile
+		var normalizedPlayer = Vector2(
+			playerTile.x - minX,
+			playerTile.y - minY
 		)
-		var player_icon = ColorRect.new()
-		player_icon.color = Color.GREEN
-		player_icon.size = Vector2(tileSize, tileSize)
-		player_icon.position = normalized_player * tileSize
+		var playerIcon = ColorRect.new()
+		playerIcon.color = Color.GREEN
+		playerIcon.size = Vector2(tileSize, tileSize)
+		playerIcon.position = normalizedPlayer * tileSize
 
-		mapContainer.add_child(player_icon)
+		mapContainer.add_child(playerIcon)
 		mapContainer.add_child(tile)

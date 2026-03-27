@@ -4,16 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://ccg2fv3maqqmh" path="res://board/objects/square.png" id="2_nlxxq"]
 [ext_resource type="Texture2D" uid="uid://doy5xbyrn1xge" path="res://board/objects/square mountain.png" id="3_ls1qu"]
 [ext_resource type="PackedScene" uid="uid://d1shvnbxdjalc" path="res://player/objects/player.tscn" id="3_s14mr"]
-[ext_resource type="Texture2D" uid="uid://c7mw68x522d5f" path="res://board/objects/square mission.png" id="4_v1c5c"]
 [ext_resource type="Script" uid="uid://4tqffu8737a1" path="res://board/scripts/mapUi.gd" id="5_3t3t1"]
-[ext_resource type="Script" uid="uid://dudgm1gv0ob48" path="res://board/scripts/popupUI.gd" id="7_r4swl"]
 
 [node name="board" type="Node2D" unique_id=231839482]
 z_index = -100
 script = ExtResource("1_drnn6")
 tileTexture = ExtResource("2_nlxxq")
 decorTexture = ExtResource("3_ls1qu")
-missionTexture = ExtResource("4_v1c5c")
 
 [node name="world" type="Node2D" parent="." unique_id=1125477832]
 
@@ -26,7 +23,7 @@ process_mode = 3
 layer = 10
 visible = false
 
-[node name="BG" type="ColorRect" parent="mapUI" unique_id=1768642939]
+[node name="mapBG" type="ColorRect" parent="mapUI" unique_id=1768642939]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -34,9 +31,8 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.90000004)
 
-[node name="mapPanel" type="Control" parent="mapUI" unique_id=1660437832]
+[node name="panel" type="Control" parent="mapUI" unique_id=1660437832]
 process_mode = 3
-visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -51,10 +47,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_3t3t1")
 
-[node name="mapContainer" type="Node2D" parent="mapUI/mapPanel" unique_id=1492277250]
+[node name="mapContainer" type="Node2D" parent="mapUI/panel" unique_id=1492277250]
 
 [node name="subs" type="VBoxContainer" parent="mapUI" unique_id=1934265524]
-visible = false
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 204.0
@@ -94,64 +89,3 @@ color = Color(0, 1, 0, 1)
 [node name="greenSub" type="Label" parent="mapUI/subs/green" unique_id=443709611]
 layout_mode = 2
 text = "Jogador (ponto atual)"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="mapUI/subs" unique_id=1292465191]
-layout_mode = 2
-
-[node name="yellowColor" type="ColorRect" parent="mapUI/subs/HBoxContainer" unique_id=679980681]
-layout_mode = 2
-color = Color(1, 1, 0, 1)
-
-[node name="yellowSub" type="Label" parent="mapUI/subs/HBoxContainer" unique_id=882658622]
-layout_mode = 2
-text = "Missão principal"
-
-[node name="popupPanel" type="Control" parent="mapUI" unique_id=1488110849]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("7_r4swl")
-
-[node name="missionPopup" type="Window" parent="mapUI/popupPanel" unique_id=197945554]
-oversampling_override = 1.0
-size = Vector2i(800, 200)
-visible = false
-
-[node name="dialogText" type="Label" parent="mapUI/popupPanel/missionPopup" unique_id=1812831234]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="button1" type="Button" parent="mapUI/popupPanel/missionPopup" unique_id=995070301]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 37.0
-grow_vertical = 0
-text = "Sim"
-
-[node name="button2" type="Button" parent="mapUI/popupPanel/missionPopup" unique_id=128754562]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -31.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Não"
-
-[connection signal="pressed" from="mapUI/popupPanel/missionPopup/button1" to="mapUI/popupPanel" method="onButton1Pressed"]
-[connection signal="pressed" from="mapUI/popupPanel/missionPopup/button2" to="mapUI/popupPanel" method="onButton2Pressed"]

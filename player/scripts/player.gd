@@ -35,6 +35,7 @@ func controlPlayerActions():
 
 func move(dir: Vector2):
 	var target = currentTile + dir
+	var oldTile = currentTile
 	if map.has(target):
 		var board = get_tree().current_scene
 		isMoving = true
@@ -42,6 +43,8 @@ func move(dir: Vector2):
 
 		if not GameState.isInCity:
 			board.updateVisibility(currentTile)
+			if not board.visitedTiles.has(oldTile):
+				board.visitedTiles.append(oldTile)
 
 		turnSprite(dir)
 		var targetCalc = currentTile * tileSize + GameState.offset + GameState.diff
@@ -61,3 +64,6 @@ func turnSprite(dir: Vector2):
 
 func setCurrentTile(tile: Vector2):
 	currentTile = tile
+
+func getCurrentTile() -> Vector2:
+	return currentTile

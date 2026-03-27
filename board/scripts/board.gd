@@ -2,24 +2,36 @@ extends Node2D
 
 @export var tileTexture: Texture2D
 @export var decorTexture: Texture2D
+@export var missionTexture: Texture2D
 @onready var player: Node2D = $world/player/playerBody
 @onready var tiles: Node2D = $world/tiles
 
-var visionRadius: int = 2
+var visionRadius: int = 200
 var tileSize: int = 32
 var numTiles: int = 200
+var objectiveTile
+var obj
 var map = {}
 var tileSprites = {}
 var seenTiles = {}
 var boundary = []
 var directions = [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]
 var drawnTiles = []
+var visitedTiles = []
 
 func _ready():
 	generateMap()
 	drawMap()
 	fillEmptySpaces()
 	spawnPlayer()
+	placeMissionObjective()
+	player.get_node("playerCamera").position_smoothing_enabled = false
+	await get_tree().process_frame
+	player.get_node("playerCamera").position_smoothing_enabled = true
+
+func _process(delta: float) -> void:
+	if player.getCurrentTile() == objectiveTile and not visitedTiles.has(player.getCurrentTile()):
+		get_tree().current_scene.get_node("mapUI/popupPanel").showObjectivePopup(obj, player.getCurrentTile())
 
 func generateMap():
 	var start = Vector2(0,0)
@@ -35,7 +47,8 @@ func generateMap():
 			map[newTile] = true
 			boundary.append(newTile)
 
-		if countNeighbors(tileBase) > 2:
+		if countNeighbors(tileBase) > 3:
+			map.erase(newTile)
 			boundary.erase(tileBase)
 
 func countNeighbors(pos: Vector2) -> int:
@@ -55,8 +68,6 @@ func drawMap():
 		tileSprites[pos] = tile
 
 func spawnPlayer():
-	print("Offset: " + str(GameState.offset))
-	print("Diff: " + str(GameState.diff))
 	var randomPos = drawnTiles[randi() % drawnTiles.size()]
 	player.position = randomPos * tileSize + GameState.offset + GameState.diff
 	player.setCurrentTile(randomPos)
@@ -67,13 +78,10 @@ func updateVisibility(playerTile: Vector2):
 	for pos in tileSprites.keys():
 		var dist = pos.distance_to(playerTile)
 		var sprite = tileSprites[pos]
+		sprite.visible = dist <= visionRadius
 
-		var visible = dist <= visionRadius
-		sprite.visible = visible
-
-		if visible:
+		if dist <= visionRadius:
 			seenTiles[pos] = true
-
 
 func fillEmptySpaces():
 	var min_x = 99999
@@ -102,3 +110,18 @@ func fillEmptySpaces():
 				tile.position = pos * tileSize + GameState.offset + GameState.diff
 				tiles.add_child(tile)
 				tileSprites[pos] = tile
+
+func placeMissionObjective():
+	var mission = MissionManager.mainMission
+	print(MissionManager.mainMission.title)
+	var pos = map.keys().get(randi() % map.keys().size())
+	var tile = tileSprites.get(pos)
+	
+	obj = mission.data
+	print(obj.markOnMap)
+	objectiveTile = pos
+	
+	if obj.markOnMap:
+		print("marquei a missao no mapa")
+		tile.texture = missionTexture
+		seenTiles[pos] = true
