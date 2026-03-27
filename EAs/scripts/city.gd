@@ -6,22 +6,21 @@ extends Node2D
 
 var tileSize = 32
 var map = {}
-var missions = [
-	"Explorar a floresta ao norte",
-	"Investigar ruínas antigas",
-	"Escoltar um mercador",
-	"Caçar criaturas próximas"
-]
 
 func _ready():
 	$world/missionBoard.position = Vector2(0, 0) * tileSize + GameState.offset + GameState.diff
 	$world/missionBoard.connect("boardInteracted", Callable(self, "openMissionBoard"))
 	generateCity()
 	positionPlayer()
+	if MissionManager.mainMission != null:
+		if MissionManager.mainMission.isCompleted:
+			giveRewards()
+		else:
+			print("Missão falhou")
+	MissionManager.abandonMainMission()
+	MissionManager.abandonAllSideMissions()
 
 func generateCity():
-	print("Offset: " + str(GameState.offset))
-	print("Diff: " + str(GameState.diff))
 	for x in range(5):
 		for y in range(5):
 			var tile = Sprite2D.new()
@@ -39,5 +38,20 @@ func positionPlayer():
 	GameState.isInCity = true
 
 func openMissionBoard():
-	$boardUI/missionBoardUI.open(missions)
+	$boardUI/missionBoardUI.open()
 	get_tree().paused = true
+
+func onReturnToCity():
+	if MissionManager.mainMission != null and not MissionManager.mainMission.isCompleted:
+		print("Missão principal falhou")
+		MissionManager.abandonMainMission()
+
+	if MissionManager.sideMissions.size() > 0:
+		for m in MissionManager.sideMissions:
+			if not m.isCompleted:
+				print("Missão secundária falhou:", m.title)
+		MissionManager.abandonAllSideMissions()
+
+func giveRewards():
+	#completar depois quando tiver sistema de itens, dinheiro e inventario
+	pass

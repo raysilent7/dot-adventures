@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="dot adventures"
-run/main_scene="uid://dxih7ata0fydt"
+run/main_scene="uid://sgxywk4cv22f"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 run/max_fps=60
 config/icon="res://icon.svg"
@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameState="*uid://d0y57m6jfu0j7"
+MissionManager="*uid://dcosd24xyiawu"
 
 [display]
 

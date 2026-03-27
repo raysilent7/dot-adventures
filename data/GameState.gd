@@ -1,15 +1,20 @@
 extends Node
 
+#Variaveis de ambiente
 var isInCity: bool = true #padrao TRUE
+
+#Reset diario de missoes
+var lastRefreshTimestamp = 0
+var cachedMissions: Array[Mission] = []
+
+#variaveis de mapa
+var tileSize: int = 32
+var offset
+var diff
 
 func _ready() -> void:
 	var scene = get_tree().current_scene
 	calcOffsetAndDiff(scene.map)
-
-#calculos de mapa
-var tileSize: int = 32
-var offset
-var diff
 
 func calcOffsetAndDiff(map):
 	var minX = 999999
