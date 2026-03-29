@@ -5,7 +5,7 @@ var sideMissions: Array[Mission] = []
 
 func acceptMainMission(acceptedMission: Mission):
 	if mainMission != null:
-		print("Já existe uma missão principal ativa")
+		print("mission manager | ja existe uma missao principal ativa")
 		return false
 
 	mainMission = acceptedMission
