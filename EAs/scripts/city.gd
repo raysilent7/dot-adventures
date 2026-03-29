@@ -16,7 +16,7 @@ func _ready():
 		if MissionManager.mainMission.isCompleted:
 			giveRewards()
 		else:
-			print("Missão falhou")
+			print("city | missao falhou")
 	MissionManager.abandonMainMission()
 	MissionManager.abandonAllSideMissions()
 
@@ -43,13 +43,13 @@ func openMissionBoard():
 
 func onReturnToCity():
 	if MissionManager.mainMission != null and not MissionManager.mainMission.isCompleted:
-		print("Missão principal falhou")
+		print("city | missao principal falhou")
 		MissionManager.abandonMainMission()
 
 	if MissionManager.sideMissions.size() > 0:
 		for m in MissionManager.sideMissions:
 			if not m.isCompleted:
-				print("Missão secundária falhou:", m.title)
+				print("city | missao secundaria falhou:", m.title)
 		MissionManager.abandonAllSideMissions()
 
 func giveRewards():

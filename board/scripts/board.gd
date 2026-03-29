@@ -21,6 +21,7 @@ var visitedTiles = []
 
 func _ready():
 	generateMap()
+	print("board | map size: " + str(map.size()))
 	drawMap()
 	fillEmptySpaces()
 	spawnPlayer()
@@ -29,7 +30,7 @@ func _ready():
 	await get_tree().process_frame
 	player.get_node("playerCamera").position_smoothing_enabled = true
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if player.getCurrentTile() == objectiveTile and not visitedTiles.has(player.getCurrentTile()):
 		get_tree().current_scene.get_node("mapUI/popupPanel").showObjectivePopup(obj, player.getCurrentTile())
 
@@ -40,15 +41,26 @@ func generateMap():
 
 	while map.size() < numTiles and boundary.size() > 0:
 		var tileBase = boundary[randi() % boundary.size()]
-		var dir = directions[randi() % directions.size()]
-		var newTile = tileBase + dir
+		var expanded = false
 
-		if not map.has(newTile):
+		for i in range(4):
+			var dir = directions[randi() % directions.size()]
+			var newTile = tileBase + dir
+			
+			if map.has(newTile) or not isValidTile(newTile):
+				continue
+				
 			map[newTile] = true
-			boundary.append(newTile)
+			
+			if countNeighbors(newTile) > 1:
+				map.erase(newTile)
+				continue
 
-		if countNeighbors(tileBase) > 3:
-			map.erase(newTile)
+			boundary.append(newTile)
+			expanded = true
+			break
+
+		if not expanded:
 			boundary.erase(tileBase)
 
 func countNeighbors(pos: Vector2) -> int:
@@ -57,6 +69,21 @@ func countNeighbors(pos: Vector2) -> int:
 		if map.has(pos + dir):
 			count += 1
 	return count
+
+func isValidTile(pos: Vector2) -> bool:
+	var orthogonalNeighbors = 0
+	for dir in [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]:
+		if map.has(pos + dir):
+			orthogonalNeighbors += 1
+
+	return orthogonalNeighbors > 0
+
+func getValidBoundaryTile():
+	for tile in boundary:
+		for dir in directions:
+			if not map.has(tile + dir):
+				return tile
+	return null
 
 func drawMap():
 	for pos in map.keys():
@@ -113,15 +140,15 @@ func fillEmptySpaces():
 
 func placeMissionObjective():
 	var mission = MissionManager.mainMission
-	print(MissionManager.mainMission.title)
+	print("board | missao atual: " + MissionManager.mainMission.title)
 	var pos = map.keys().get(randi() % map.keys().size())
 	var tile = tileSprites.get(pos)
 	
 	obj = mission.data
-	print(obj.markOnMap)
+	print("board | markOnMap: " + str(obj.markOnMap))
 	objectiveTile = pos
 	
 	if obj.markOnMap:
-		print("marquei a missao no mapa")
+		print("board | marquei a missao no mapa")
 		tile.texture = missionTexture
 		seenTiles[pos] = true

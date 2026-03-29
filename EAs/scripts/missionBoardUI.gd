@@ -47,11 +47,11 @@ func onMissionSelected(todayMission: Mission):
 
 func onYesPressed() -> void:
 	if MissionManager.acceptMainMission(selectedMission):
-		print(MissionManager.mainMission.title)
+		print("mission board UI | missao atual: " + MissionManager.mainMission.title)
 		get_tree().paused = false
 		get_tree().change_scene_to_file("res://board/objects/board.tscn")
 	else:
-		print("Já existe uma missão ativa")
+		print("mission board UI | ja existe uma missao ativa")
 
 func onNoPressed() -> void:
 	$confirmPopup.hide()
