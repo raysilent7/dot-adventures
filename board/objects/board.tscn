@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d1shvnbxdjalc" path="res://player/objects/player.tscn" id="3_s14mr"]
 [ext_resource type="Texture2D" uid="uid://c7mw68x522d5f" path="res://board/objects/square mission.png" id="4_v1c5c"]
 [ext_resource type="Script" uid="uid://4tqffu8737a1" path="res://board/scripts/mapUi.gd" id="5_3t3t1"]
+[ext_resource type="Texture2D" uid="uid://dcx548832rpka" path="res://EAs/objects/square house.png" id="5_g6uvt"]
 [ext_resource type="Script" uid="uid://dudgm1gv0ob48" path="res://board/scripts/popupUI.gd" id="7_r4swl"]
 
 [node name="board" type="Node2D" unique_id=231839482]
@@ -14,6 +15,7 @@ script = ExtResource("1_drnn6")
 tileTexture = ExtResource("2_nlxxq")
 decorTexture = ExtResource("3_ls1qu")
 missionTexture = ExtResource("4_v1c5c")
+cityTexture = ExtResource("5_g6uvt")
 
 [node name="world" type="Node2D" parent="." unique_id=1125477832]
 
@@ -116,7 +118,7 @@ script = ExtResource("7_r4swl")
 
 [node name="missionPopup" type="Window" parent="mapUI/popupPanel" unique_id=197945554]
 oversampling_override = 1.0
-size = Vector2i(800, 200)
+size = Vector2i(1000, 200)
 visible = false
 
 [node name="dialogText" type="Label" parent="mapUI/popupPanel/missionPopup" unique_id=1812831234]
@@ -153,5 +155,46 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Não"
 
+[node name="cityPopup" type="Window" parent="mapUI/popupPanel" unique_id=1904528409]
+oversampling_override = 1.0
+size = Vector2i(1000, 200)
+visible = false
+
+[node name="dialogText" type="Label" parent="mapUI/popupPanel/cityPopup" unique_id=783055648]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="button3" type="Button" parent="mapUI/popupPanel/cityPopup" unique_id=318548321]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 37.0
+grow_vertical = 0
+text = "Sim"
+
+[node name="button4" type="Button" parent="mapUI/popupPanel/cityPopup" unique_id=2060346418]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Não"
+
 [connection signal="pressed" from="mapUI/popupPanel/missionPopup/button1" to="mapUI/popupPanel" method="onButton1Pressed"]
 [connection signal="pressed" from="mapUI/popupPanel/missionPopup/button2" to="mapUI/popupPanel" method="onButton2Pressed"]
+[connection signal="pressed" from="mapUI/popupPanel/cityPopup/button3" to="mapUI/popupPanel" method="onButton3Pressed"]
+[connection signal="pressed" from="mapUI/popupPanel/cityPopup/button4" to="mapUI/popupPanel" method="onButton4Pressed"]

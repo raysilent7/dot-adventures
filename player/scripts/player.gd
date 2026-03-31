@@ -12,7 +12,7 @@ func _ready():
 	var scene = get_tree().current_scene
 	map = scene.map
 
-func _process(delta):
+func _process(_delta):
 	controlPlayerActions()
 
 func controlPlayerActions():
@@ -43,7 +43,7 @@ func move(dir: Vector2):
 
 		if not GameState.isInCity:
 			board.updateVisibility(currentTile)
-			if not board.visitedTiles.has(oldTile):
+			if not board.visitedTiles.has(oldTile) and not board.objectiveTiles.get("CITY") == oldTile:
 				board.visitedTiles.append(oldTile)
 
 		turnSprite(dir)
