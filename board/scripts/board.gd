@@ -3,14 +3,15 @@ extends Node2D
 @export var tileTexture: Texture2D
 @export var decorTexture: Texture2D
 @export var missionTexture: Texture2D
+@export var cityTexture: Texture2D
 @onready var player: Node2D = $world/player/playerBody
 @onready var tiles: Node2D = $world/tiles
 
-var visionRadius: int = 200
+var visionRadius: int = 2
 var tileSize: int = 32
 var numTiles: int = 200
-var objectiveTile
 var obj
+var objectiveTiles = {}
 var map = {}
 var tileSprites = {}
 var seenTiles = {}
@@ -25,14 +26,20 @@ func _ready():
 	drawMap()
 	fillEmptySpaces()
 	spawnPlayer()
-	placeMissionObjective()
+	placeMissionObjectiveOnMap()
+	placeMainCityOnMap()
 	player.get_node("playerCamera").position_smoothing_enabled = false
 	await get_tree().process_frame
 	player.get_node("playerCamera").position_smoothing_enabled = true
 
 func _process(_delta: float) -> void:
-	if player.getCurrentTile() == objectiveTile and not visitedTiles.has(player.getCurrentTile()):
-		get_tree().current_scene.get_node("mapUI/popupPanel").showObjectivePopup(obj, player.getCurrentTile())
+	if visitedTiles.size() > 0:
+		GameState.firstVisit = false
+
+	for tileName in objectiveTiles:
+		if player.getCurrentTile() == objectiveTiles.get(tileName) and not visitedTiles.has(player.getCurrentTile()):
+			print("board | process | entrei no tileNameValidator: " + str(player.getCurrentTile() == objectiveTiles.get(tileName) and not visitedTiles.has(player.getCurrentTile())) + "tileName: " + tileName)
+			get_tree().current_scene.get_node("mapUI/popupPanel").showObjectivePopup(obj, player.getCurrentTile(), tileName)
 
 func generateMap():
 	var start = Vector2(0,0)
@@ -138,7 +145,7 @@ func fillEmptySpaces():
 				tiles.add_child(tile)
 				tileSprites[pos] = tile
 
-func placeMissionObjective():
+func placeMissionObjectiveOnMap():
 	var mission = MissionManager.mainMission
 	print("board | missao atual: " + MissionManager.mainMission.title)
 	var pos = map.keys().get(randi() % map.keys().size())
@@ -146,9 +153,16 @@ func placeMissionObjective():
 	
 	obj = mission.data
 	print("board | markOnMap: " + str(obj.markOnMap))
-	objectiveTile = pos
+	objectiveTiles.set("MAIN_MISSION", pos)
 	
 	if obj.markOnMap:
 		print("board | marquei a missao no mapa")
 		tile.texture = missionTexture
 		seenTiles[pos] = true
+
+func placeMainCityOnMap():
+	print("board | cidade posicionada ")
+	var pos = player.getCurrentTile()
+	var tile = tileSprites.get(pos)
+	objectiveTiles.set("CITY", pos)
+	tile.texture = cityTexture

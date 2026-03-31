@@ -2,6 +2,7 @@ extends Node
 
 #Variaveis de ambiente
 var isInCity: bool = true #padrao TRUE
+var firstVisit: bool = true #padrao TRUE
 
 #Reset diario de missoes
 var lastRefreshTimestamp = 0
