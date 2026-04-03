@@ -9,7 +9,6 @@ var currentTile
 
 func showObjectivePopup(obj, playerTile, tileName):
 	print("show popup: " + str(tileName == "CITY" and not GameState.firstVisit))
-	print(GameState.firstVisit)
 	if tileName == "MAIN_MISSION":
 		print("mapUI | showObjectivePopup | missionPopup")
 		if obj.hasEnemies:
