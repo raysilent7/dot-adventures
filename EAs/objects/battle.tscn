@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bpv1h24morwd4"]
+
+[ext_resource type="Script" uid="uid://hpxh8o7yq5sx" path="res://EAs/scripts/battle/battleManager.gd" id="1_svahc"]
+[ext_resource type="Texture2D" uid="uid://ccg2fv3maqqmh" path="res://board/objects/square.png" id="2_lip3d"]
+
+[node name="battle" type="Node2D" unique_id=1410282974]
+
+[node name="battleManager" type="Node2D" parent="." unique_id=1351344805]
+script = ExtResource("1_svahc")
+tileTexture = ExtResource("2_lip3d")
+
+[node name="tileContainer" type="Node2D" parent="." unique_id=1431356732]
+
+[node name="playerFront1" type="Node2D" parent="tileContainer" unique_id=898794185]
+
+[node name="playerFront2" type="Node2D" parent="tileContainer" unique_id=1137275700]
+
+[node name="playerBack1" type="Node2D" parent="tileContainer" unique_id=694502603]
+
+[node name="playerBack2" type="Node2D" parent="tileContainer" unique_id=1325692804]
+
+[node name="enemyFront1" type="Node2D" parent="tileContainer" unique_id=1344598885]
+
+[node name="enemyFront2" type="Node2D" parent="tileContainer" unique_id=617253854]
+
+[node name="enemyBack1" type="Node2D" parent="tileContainer" unique_id=309433774]
+
+[node name="enemyBack2" type="Node2D" parent="tileContainer" unique_id=626459791]
+
+[node name="unitContainer" type="Node2D" parent="." unique_id=1643112923]

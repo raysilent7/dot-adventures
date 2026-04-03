@@ -15,7 +15,9 @@ var diff
 
 func _ready() -> void:
 	var scene = get_tree().current_scene
-	calcOffsetAndDiff(scene.map)
+	
+	if scene.scene_file_path == "res://board/objects/board.tscn":
+		calcOffsetAndDiff(scene.map)
 
 func calcOffsetAndDiff(map):
 	var minX = 999999
