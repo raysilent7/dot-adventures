@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://lg461kfr50ra"]
+
+[ext_resource type="Script" uid="uid://5laysedp6q11" path="res://EAs/scripts/battle/battleSlot.gd" id="1_w0p6p"]
+
+[node name="battleSlot" type="Node2D" unique_id=2091479669]
+script = ExtResource("1_w0p6p")

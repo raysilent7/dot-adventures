@@ -5,6 +5,9 @@ var team: String = "player"
 var index: int = 1
 var unit: BattleUnit = null
 
+func _ready():
+	z_index = 10
+
 func isFrontline() -> bool:
 	return index in [1, 2]
 
