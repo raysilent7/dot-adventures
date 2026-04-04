@@ -8,7 +8,6 @@ extends Control
 var currentTile
 
 func showObjectivePopup(obj, playerTile, tileName):
-	print("show popup: " + str(tileName == "CITY" and not GameState.firstVisit))
 	if tileName == "MAIN_MISSION":
 		print("mapUI | showObjectivePopup | missionPopup")
 		if obj.hasEnemies:
@@ -24,20 +23,20 @@ func fillMissionPopupInfo(obj, button1Text, button2Text, playerTile):
 	var button1 = popup.get_node("button1")
 	var button2 = popup.get_node("button2")
 	label.text = obj.dialogText
-	showPopup(button1, button2, button1Text, button2Text, playerTile)
+	showPopup(button1, button2, button1Text, button2Text, playerTile, popup)
 
 func fillCityPopupInfo(button1Text, button2Text, playerTile):
 	var label = popup2.get_node("dialogText")
 	var button1 = popup2.get_node("button3")
 	var button2 = popup2.get_node("button4")
 	label.text = "Deseja retornar para a cidade agora? Atenção! Retornar à cidade sem completar a missão do quadro fará com que sua missão falhe instantaneamente."
-	showPopup(button1, button2, button1Text, button2Text, playerTile)
+	showPopup(button1, button2, button1Text, button2Text, playerTile, popup2)
 
-func showPopup(button1, button2, button1Text, button2Text, playerTile):
+func showPopup(button1, button2, button1Text, button2Text, playerTile, chosenPopup):
 	mapUI.visible = true
 	button1.text = button1Text
 	button2.text = button2Text
-	popup2.popup_centered()
+	chosenPopup.popup_centered()
 	get_tree().paused = true
 	currentTile = playerTile
 

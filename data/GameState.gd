@@ -16,7 +16,7 @@ var diff
 func _ready() -> void:
 	var scene = get_tree().current_scene
 	
-	if scene.scene_file_path == "res://board/objects/board.tscn":
+	if scene.scene_file_path == "res://board/objects/board.tscn" or scene.scene_file_path == "res://EAs/objects/city.tscn":
 		calcOffsetAndDiff(scene.map)
 
 func calcOffsetAndDiff(map):

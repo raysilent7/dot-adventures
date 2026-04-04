@@ -59,7 +59,7 @@ func generateMap():
 				
 			map[newTile] = true
 			
-			if countNeighbors(newTile) > 1:
+			if countNeighbors(newTile) > 3:
 				map.erase(newTile)
 				continue
 
