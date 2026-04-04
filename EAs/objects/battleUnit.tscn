@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c047dlx67tdpa"]
+
+[ext_resource type="Script" uid="uid://cigstbnhieeda" path="res://EAs/scripts/battle/battleUnit.gd" id="1_5tshk"]
+[ext_resource type="Texture2D" uid="uid://bt122vp5o2sax" path="res://player/objects/player.png" id="2_1l41x"]
+
+[node name="battleUnit" type="Node2D" unique_id=1146262304]
+script = ExtResource("1_5tshk")
+
+[node name="unitTexture" type="Sprite2D" parent="." unique_id=1367592338]
+texture = ExtResource("2_1l41x")
+
+[node name="healthBar" type="TextureProgressBar" parent="." unique_id=489372798]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="speedBar" type="TextureProgressBar" parent="." unique_id=1762894721]
+offset_right = 40.0
+offset_bottom = 40.0
