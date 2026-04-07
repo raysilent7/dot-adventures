@@ -1,6 +1,8 @@
 extends Node2D
+class_name BattleManager
 
 @export var tileTexture: Texture2D
+@onready var battleUI = $"../battleUI"
 var BattleUnitScene: PackedScene = preload("res://EAs/objects/battleUnit.tscn")
 var BattleSlotScene: PackedScene = preload("res://EAs/objects/battleSlot.tscn")
 
@@ -13,6 +15,7 @@ var playerSlots: Array[BattleSlot]
 var enemySlots: Array[BattleSlot]
 var playerTiles = {}
 var enemyTiles = {}
+var currentUnit
 
 func _ready():
 	generateTiles()
@@ -85,16 +88,74 @@ func spawnTestUnits():
 		var unit = BattleUnitScene.instantiate()
 		unit.team = "player"
 		unit.maxHp = 100
-		unit.power = 15
-		unit.defense = 8
-		unit.speed = 12
+		unit.power = randi_range(30, 50)
+		unit.defense = 10
+		unit.speed = randi_range(20, 30)
 		playerSlots[i].placeUnit(unit)
 
 	for i in range(enemySlots.size()):
 		var unit = BattleUnitScene.instantiate()
 		unit.team = "enemy"
 		unit.maxHp = 50
-		unit.power = 10
-		unit.defense = 6
-		unit.speed = 8
+		unit.power = randi_range(20, 45)
+		unit.defense = 10
+		unit.speed = randi_range(15, 25)
 		enemySlots[i].placeUnit(unit)
+
+func getAllUnits() -> Array:
+	var list = []
+	for slot in playerSlots:
+		if slot.unit:
+			list.append(slot.unit)
+	for slot in enemySlots:
+		if slot.unit:
+			list.append(slot.unit)
+	return list
+
+func showPlayerActionUI(unit, turnManager):
+	print("Player turn: ", unit)
+	currentUnit = unit
+	battleUI.showCommandPanel(unit, turnManager)
+
+func executeEnemyAI(unit, turnManager):
+	print("Enemy turn:", unit)
+	#aqui vai implementar a IA de ataque dos inimigos
+	turnManager.onUnitTurnFinished(unit)
+
+func onAttackButtonPressed() -> void:
+	var targets = getValidTargets(currentUnit.team)
+	battleUI.showTargetSelection(targets)
+
+func executePlayerAttack(attacker: BattleUnit, target: BattleUnit, turnManager: TurnManager):
+	var damage = max(attacker.power - target.defense, 1)
+	target.takeDamage(damage)
+
+	if not target.isAlive():
+		print(target.name, "morreu")
+
+	if checkBattleEnd():
+		return
+
+	turnManager.onUnitTurnFinished(attacker)
+
+func checkBattleEnd() -> bool:
+	var anyPlayerAlive = false
+	var anyEnemyAlive = false
+
+	for slot in playerSlots:
+		if slot.unit and slot.unit.isAlive():
+			anyPlayerAlive = true
+
+	for slot in enemySlots:
+		if slot.unit and slot.unit.isAlive():
+			anyEnemyAlive = true
+
+	if not anyPlayerAlive:
+		print("Derrota")
+		return true
+
+	if not anyEnemyAlive:
+		print("Vitória")
+		return true
+
+	return false

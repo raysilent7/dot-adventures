@@ -2,29 +2,126 @@
 
 [ext_resource type="Script" uid="uid://hpxh8o7yq5sx" path="res://EAs/scripts/battle/battleManager.gd" id="1_svahc"]
 [ext_resource type="Texture2D" uid="uid://ccg2fv3maqqmh" path="res://board/objects/square.png" id="2_lip3d"]
+[ext_resource type="Script" uid="uid://cg1jsisxyqyjh" path="res://EAs/scripts/battle/turnManager.gd" id="3_jtif1"]
+[ext_resource type="Script" uid="uid://dmbew1q2wvs4l" path="res://EAs/scripts/battle/battleUI.gd" id="4_duaeo"]
 
 [node name="battle" type="Node2D" unique_id=1410282974]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=868547843]
+position = Vector2(640, 360)
+zoom = Vector2(4, 4)
+metadata/_edit_lock_ = true
 
 [node name="battleManager" type="Node2D" parent="." unique_id=1351344805]
 script = ExtResource("1_svahc")
 tileTexture = ExtResource("2_lip3d")
+metadata/_edit_lock_ = true
+
+[node name="turnManager" type="Node2D" parent="." unique_id=751184092]
+script = ExtResource("3_jtif1")
+metadata/_edit_lock_ = true
 
 [node name="tileContainer" type="Node2D" parent="." unique_id=1431356732]
+metadata/_edit_lock_ = true
 
 [node name="playerFront1" type="Node2D" parent="tileContainer" unique_id=898794185]
+metadata/_edit_lock_ = true
 
 [node name="playerFront2" type="Node2D" parent="tileContainer" unique_id=1137275700]
+metadata/_edit_lock_ = true
 
 [node name="playerBack1" type="Node2D" parent="tileContainer" unique_id=694502603]
+metadata/_edit_lock_ = true
 
 [node name="playerBack2" type="Node2D" parent="tileContainer" unique_id=1325692804]
+metadata/_edit_lock_ = true
 
 [node name="enemyFront1" type="Node2D" parent="tileContainer" unique_id=1344598885]
+metadata/_edit_lock_ = true
 
 [node name="enemyFront2" type="Node2D" parent="tileContainer" unique_id=617253854]
+metadata/_edit_lock_ = true
 
 [node name="enemyBack1" type="Node2D" parent="tileContainer" unique_id=309433774]
+metadata/_edit_lock_ = true
 
 [node name="enemyBack2" type="Node2D" parent="tileContainer" unique_id=626459791]
+metadata/_edit_lock_ = true
 
 [node name="unitContainer" type="Node2D" parent="." unique_id=1643112923]
+metadata/_edit_lock_ = true
+
+[node name="battleUI" type="CanvasLayer" parent="." unique_id=1409866674]
+script = ExtResource("4_duaeo")
+
+[node name="commandPanel" type="Control" parent="battleUI" unique_id=81433639]
+custom_minimum_size = Vector2(250, 140)
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+pivot_offset = Vector2(20, -20)
+
+[node name="attackButton" type="Button" parent="battleUI/commandPanel" unique_id=1111625821]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 64.0
+grow_vertical = 0
+text = "Ataque"
+
+[node name="skillButton" type="Button" parent="battleUI/commandPanel" unique_id=96228332]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -31.0
+offset_right = 46.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Habilidade"
+
+[node name="itemButton" type="Button" parent="battleUI/commandPanel" unique_id=688574488]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Item"
+
+[node name="targetPanel" type="Control" parent="battleUI" unique_id=1948324295]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="targetContainer" type="HBoxContainer" parent="battleUI/targetPanel" unique_id=28474074]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="descriptionPanel" type="Label" parent="battleUI" unique_id=32348082]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="pressed" from="battleUI/commandPanel/attackButton" to="battleManager" method="onAttackButtonPressed"]

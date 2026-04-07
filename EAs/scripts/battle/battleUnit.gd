@@ -18,18 +18,17 @@ var slot = null
 
 func _ready():
 	z_index = 20
+	healthBar.z_index = 30
+	speedBar.z_index = 30
 	currentHp = maxHp
 	updateHealthBar()
 	updateSpeedBar()
 
 func fillSpeed():
-	speedMeter += speed
-
-	if speedMeter >= 100:
-		speedMeter = 100
-		return true
-
+	speedMeter += getTotalSpeed()
 	updateSpeedBar()
+	if speedMeter >= 100:
+		return true
 	return false
 
 func resetSpeed():
@@ -37,8 +36,7 @@ func resetSpeed():
 	updateSpeedBar()
 
 func takeDamage(amount: int):
-	var dmg = max((amount - defense), 1)
-	currentHp -= dmg
+	currentHp -= amount
 
 	if currentHp <= 0:
 		currentHp = 0
@@ -61,3 +59,12 @@ func updateHealthBar():
 func updateSpeedBar():
 	speedBar.max_value = 100
 	speedBar.value = speedMeter
+
+func getTotalSpeed() -> int:
+	return speed + 0 #aqui vai entrar bonusSpeed no futuro quando tivermos um sistema de atributos mais detalhado
+
+func highlightOn():
+	sprite.modulate = Color(0.0, 1.4, 0.4, 1.0)
+
+func highlightOff():
+	sprite.modulate = Color(1, 1, 1)
