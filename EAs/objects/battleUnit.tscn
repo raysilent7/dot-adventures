@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cigstbnhieeda" path="res://EAs/scripts/battle/battleUnit.gd" id="1_5tshk"]
 [ext_resource type="Texture2D" uid="uid://bt122vp5o2sax" path="res://player/objects/player.png" id="2_1l41x"]
+[ext_resource type="Texture2D" uid="uid://lcqmtagcs6f" path="res://EAs/objects/healthBar.png" id="3_tyae8"]
+[ext_resource type="Texture2D" uid="uid://wv3guxmqno0g" path="res://EAs/objects/healthBarDepleted.png" id="3_vii1y"]
+[ext_resource type="Texture2D" uid="uid://c8s2kfo7yvw4l" path="res://EAs/objects/speedBar.png" id="4_rg574"]
+[ext_resource type="Texture2D" uid="uid://qv3j8575v0e3" path="res://EAs/objects/speedBarDepleted.png" id="4_vii1y"]
 
 [node name="battleUnit" type="Node2D" unique_id=1146262304]
 script = ExtResource("1_5tshk")
@@ -10,9 +14,25 @@ script = ExtResource("1_5tshk")
 texture = ExtResource("2_1l41x")
 
 [node name="healthBar" type="TextureProgressBar" parent="." unique_id=489372798]
-offset_right = 40.0
-offset_bottom = 40.0
+custom_minimum_size = Vector2(32, 4)
+offset_left = -16.0
+offset_top = -11.0
+offset_right = 16.0
+offset_bottom = -7.0
+texture_under = ExtResource("3_vii1y")
+texture_progress = ExtResource("3_tyae8")
+tint_under = Color(1, 0.82096136, 0.88417995, 1)
+tint_over = Color(1, 0, 1, 1)
+tint_progress = Color(1, 1, 0, 1)
 
 [node name="speedBar" type="TextureProgressBar" parent="." unique_id=1762894721]
-offset_right = 40.0
-offset_bottom = 40.0
+custom_minimum_size = Vector2(32, 4)
+offset_left = -16.0
+offset_top = -13.0
+offset_right = 16.0
+offset_bottom = -9.0
+texture_under = ExtResource("4_vii1y")
+texture_progress = ExtResource("4_rg574")
+tint_under = Color(0, 1, 1, 1)
+tint_over = Color(1, 0, 1, 1)
+tint_progress = Color(1, 1, 0, 1)
