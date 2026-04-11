@@ -24,30 +24,6 @@ metadata/_edit_lock_ = true
 [node name="tileContainer" type="Node2D" parent="." unique_id=1431356732]
 metadata/_edit_lock_ = true
 
-[node name="playerFront1" type="Node2D" parent="tileContainer" unique_id=898794185]
-metadata/_edit_lock_ = true
-
-[node name="playerFront2" type="Node2D" parent="tileContainer" unique_id=1137275700]
-metadata/_edit_lock_ = true
-
-[node name="playerBack1" type="Node2D" parent="tileContainer" unique_id=694502603]
-metadata/_edit_lock_ = true
-
-[node name="playerBack2" type="Node2D" parent="tileContainer" unique_id=1325692804]
-metadata/_edit_lock_ = true
-
-[node name="enemyFront1" type="Node2D" parent="tileContainer" unique_id=1344598885]
-metadata/_edit_lock_ = true
-
-[node name="enemyFront2" type="Node2D" parent="tileContainer" unique_id=617253854]
-metadata/_edit_lock_ = true
-
-[node name="enemyBack1" type="Node2D" parent="tileContainer" unique_id=309433774]
-metadata/_edit_lock_ = true
-
-[node name="enemyBack2" type="Node2D" parent="tileContainer" unique_id=626459791]
-metadata/_edit_lock_ = true
-
 [node name="unitContainer" type="Node2D" parent="." unique_id=1643112923]
 metadata/_edit_lock_ = true
 
@@ -55,6 +31,7 @@ metadata/_edit_lock_ = true
 script = ExtResource("4_duaeo")
 
 [node name="commandPanel" type="Control" parent="battleUI" unique_id=81433639]
+visible = false
 custom_minimum_size = Vector2(250, 140)
 layout_mode = 3
 anchors_preset = 2
@@ -103,6 +80,7 @@ grow_vertical = 0
 text = "Item"
 
 [node name="targetPanel" type="Control" parent="battleUI" unique_id=1948324295]
+visible = false
 layout_mode = 3
 anchors_preset = 7
 anchor_left = 0.5

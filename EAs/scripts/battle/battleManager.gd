@@ -10,6 +10,7 @@ const TILE_SIZE = 32
 const GRID_COLS = 2
 const GRID_ROWS = 2
 const SIDE_SPACING = 64
+const PLAYER_TEAM = "player"
 
 var playerSlots: Array[BattleSlot]
 var enemySlots: Array[BattleSlot]
@@ -18,88 +19,92 @@ var enemyTiles = {}
 var currentUnit
 
 func _ready():
+	randomize()
 	generateTiles()
 	generateSlots()
 	spawnTestUnits()
 
 func getValidTargets(attackerTeam: String) -> Array:
-	var slots = playerSlots if attackerTeam == "player" else enemySlots
-	var frontline = []
-	var backline = []
+	var slots = enemySlots if attackerTeam == "player" else playerSlots
+	var targets = []
 
 	for slot in slots:
 		if slot.unit and slot.unit.isAlive():
-			if slot.isFrontline():
-				frontline.append(slot.unit)
-			else:
-				backline.append(slot.unit)
+			targets.append(slot.unit)
 
-	return frontline if frontline.size() > 0 else backline
+	return targets
 
 func generateTiles():
 	var center = get_viewport_rect().size / 2
 	var playerOrigin = center + Vector2(-TILE_SIZE * 3, -TILE_SIZE)
 	var enemyOrigin  = center + Vector2(TILE_SIZE * 1, -TILE_SIZE)
 	var idx = 1
-	
+
 	for row in range(GRID_ROWS):
 		for col in range(GRID_COLS):
 			var tile = Sprite2D.new()
+			tile.name = str(row) + "," + str(col)
 			tile.texture = tileTexture
-			tile.position = playerOrigin + Vector2(col * TILE_SIZE, row * TILE_SIZE)
+			tile.position = enemyOrigin + Vector2(row * TILE_SIZE, col * TILE_SIZE)
 			$"../tileContainer".add_child(tile)
-			playerTiles[idx] = tile
+			enemyTiles[idx] = tile
 			idx += 1
 
 	idx = 1
 	for row in range(GRID_ROWS):
 		for col in range(GRID_COLS):
 			var tile = Sprite2D.new()
+			tile.name = str(row) + "," + str(col)
 			tile.texture = tileTexture
-			tile.position = enemyOrigin + Vector2(col * TILE_SIZE, row * TILE_SIZE)
+			tile.position = playerOrigin + Vector2(row * TILE_SIZE, col * TILE_SIZE)
 			$"../tileContainer".add_child(tile)
-			enemyTiles[idx] = tile
+			playerTiles[idx] = tile
 			idx += 1
 
 func generateSlots():
-	for i in playerTiles.keys():
-		var slot: BattleSlot = BattleSlotScene.instantiate()
-		slot.team = "player"
-		slot.index = i
-		slot.position = playerTiles[i].position
-		add_child(slot)
-		playerSlots.append(slot)
+	var order = [1,2,3,4]
 
-	for i in enemyTiles.keys():
+	for i in order:
 		var slot: BattleSlot = BattleSlotScene.instantiate()
 		slot.team = "enemy"
-		slot.index = i
+		slot.frontLine = i < 3
 		slot.position = enemyTiles[i].position
 		add_child(slot)
 		enemySlots.append(slot)
 
-func placePlayerUnits(units):
-	for i in range(units.size()):
-		var slot = playerSlots[i]
-		slot.placeUnit(units[i])
+	for i in order:
+		var slot: BattleSlot = BattleSlotScene.instantiate()
+		slot.team = "player"
+		slot.frontLine = i > 2
+		slot.position = playerTiles[i].position
+		add_child(slot)
+		playerSlots.append(slot)
 
 func spawnTestUnits():
 	for i in range(playerSlots.size()):
 		var unit = BattleUnitScene.instantiate()
+		unit.unitName = "player" + str(i)
 		unit.team = "player"
 		unit.maxHp = 100
 		unit.power = randi_range(30, 50)
 		unit.defense = 10
 		unit.speed = randi_range(20, 30)
+		unit.row = "front" if i <= 1 else "back"
+		unit.behavior = BattleUnit.Behavior.LINE_BREAKER if i <= 1 else BattleUnit.Behavior.LINE_PIERCER
+		unit.canAttackBackLine = unit.behavior == BattleUnit.Behavior.LINE_PIERCER
 		playerSlots[i].placeUnit(unit)
 
 	for i in range(enemySlots.size()):
 		var unit = BattleUnitScene.instantiate()
+		unit.unitName = "enemy" + str(i)
 		unit.team = "enemy"
 		unit.maxHp = 50
 		unit.power = randi_range(20, 45)
 		unit.defense = 10
 		unit.speed = randi_range(15, 25)
+		unit.row = "front" if i <= 1 else "back"
+		unit.behavior = BattleUnit.Behavior.LINE_BREAKER if i <= 1 else BattleUnit.Behavior.LINE_PIERCER
+		unit.canAttackBackLine = unit.behavior == BattleUnit.Behavior.LINE_PIERCER
 		enemySlots[i].placeUnit(unit)
 
 func getAllUnits() -> Array:
@@ -112,26 +117,48 @@ func getAllUnits() -> Array:
 			list.append(slot.unit)
 	return list
 
-func showPlayerActionUI(unit, turnManager):
-	print("Player turn: ", unit)
+func showPlayerActionUI(unit: BattleUnit, turnManager: TurnManager):
+	print("Player turn: " + unit.unitName + " ataca backline: " + str(unit.canAttackBackLine))
 	currentUnit = unit
 	battleUI.showCommandPanel(unit, turnManager)
 
-func executeEnemyAI(unit, turnManager):
-	print("Enemy turn:", unit)
-	#aqui vai implementar a IA de ataque dos inimigos
-	turnManager.onUnitTurnFinished(unit)
+func executeEnemyAI(unit: BattleUnit, turnManager: TurnManager):
+	var allies = getValidTargets(PLAYER_TEAM)
+	var targets = getValidTargets(unit.team)
+	var chosenTarget = null
+
+	match unit.behavior:
+		BattleUnit.Behavior.LINE_BREAKER:
+			chosenTarget = chooseLineBreakerTarget(targets)
+			print("alvo escolhido: " + chosenTarget.name)
+		BattleUnit.Behavior.LINE_PIERCER:
+			chosenTarget = chooseLinePiercerTarget(targets)
+			print("alvo escolhido: " + chosenTarget.name)
+		BattleUnit.Behavior.RANDOM:
+			chosenTarget = chooseRandomTarget(unit, targets)
+			print("alvo escolhido: " + chosenTarget.name)
+		BattleUnit.Behavior.SUPPORT:
+			chosenTarget = chooseSupportAction(unit, allies, targets)
+			print("alvo escolhido: " + chosenTarget.name)
+	
+	if chosenTarget.team != PLAYER_TEAM:
+		pass #implementar logica de buff/cura quando houver um sistema de habilidades
+	else:
+		executeAttack(unit, chosenTarget, turnManager)
 
 func onAttackButtonPressed() -> void:
 	var targets = getValidTargets(currentUnit.team)
-	battleUI.showTargetSelection(targets)
+	if currentUnit.canAttackBackLine:
+		battleUI.showTargetSelection(targets)
+	else:
+		battleUI.showTargetSelection(getFrontlineTargets(targets))
 
-func executePlayerAttack(attacker: BattleUnit, target: BattleUnit, turnManager: TurnManager):
+func executeAttack(attacker: BattleUnit, target: BattleUnit, turnManager: TurnManager):
 	var damage = max(attacker.power - target.defense, 1)
 	target.takeDamage(damage)
 
 	if not target.isAlive():
-		print(target.name, "morreu")
+		print(target.unitName + " morreu")
 
 	if checkBattleEnd():
 		return
@@ -159,3 +186,46 @@ func checkBattleEnd() -> bool:
 		return true
 
 	return false
+
+func chooseLineBreakerTarget(targets):
+	var front = getFrontlineTargets(targets)
+	if front.size() > 0:
+		print("ataquei frontline")
+		return getRandomTarget(false, front)
+	print("ataquei qualquer um")
+	return getRandomTarget(false, targets)
+
+func chooseLinePiercerTarget(targets):
+	var back = getBacklineTargets(targets)
+	if back.size() > 0:
+		print("ataquei backline")
+		return getRandomTarget(true, back)
+	print("ataquei qualquer um")
+	return getRandomTarget(true, targets)
+
+func chooseRandomTarget(unit, targets):
+	return getRandomTarget(unit.canAttackBackLine, targets)
+
+func chooseSupportAction(unit, allies, targets):
+	var injured = allies.filter(func(a): return a.hp < a.max_hp)
+	if injured.size() > 0 and unit.canCastHeal():
+		pass #implementar logica de buff/cura quando houver um sistema de habilidades
+
+	var unbuffed = allies.filter(func(a): return not a.hasBuff())
+	if unbuffed.size() > 0 and unit.canCastBuff():
+		pass #implementar logica de buff/cura quando houver um sistema de habilidades
+
+	return getRandomTarget(unit.canAttackBackLine, targets)
+
+func getFrontlineTargets(targets):
+	return targets.filter(func(t): return t.row == "front")
+
+func getBacklineTargets(targets):
+	return targets.filter(func(t): return t.row == "back")
+
+func getRandomTarget(canAttackBackLine, targets):
+	if canAttackBackLine:
+		return targets[randi() % targets.size()]
+	else:
+		targets = getFrontlineTargets(targets)
+		return targets[randi() % targets.size()]

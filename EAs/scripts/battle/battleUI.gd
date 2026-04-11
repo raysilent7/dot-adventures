@@ -50,4 +50,5 @@ func onHoverExit(target):
 
 func onTargetSelected(target):
 	clearHighlights()
-	battleManager.executePlayerAttack(currentUnit, target, turnManager)
+	hideAll()
+	battleManager.executeAttack(currentUnit, target, turnManager)

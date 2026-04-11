@@ -5,6 +5,15 @@ class_name BattleUnit
 @onready var healthBar = $healthBar
 @onready var speedBar = $speedBar
 
+enum Behavior {
+	LINE_BREAKER,   #prioriza alvos da frontline
+	LINE_PIERCER,   #prioriza alvos da backline
+	RANDOM,         #ataca qualquer alvo valido
+	SUPPORT         #prioriza proteger/tankar/buffar
+}
+
+var behavior = Behavior.LINE_BREAKER
+var unitName: String
 var maxHp: int = 100
 var power: int = 10
 var defense: int = 5
@@ -14,6 +23,7 @@ var speedMeter: float = 0.0
 var team: String = "player"
 var row: String = "front"
 var slotPosition: int = 1
+var canAttackBackLine: bool = false
 var slot = null
 
 func _ready():
