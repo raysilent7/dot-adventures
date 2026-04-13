@@ -5,7 +5,7 @@ extends Control
 
 var tileSize = 16
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("map"):
 		mapUI.visible = not mapUI.visible
 		mapUI.get_node("subs").visible = not mapUI.get_node("subs").visible
@@ -45,16 +45,24 @@ func updateMap(seenTiles, tileSprites):
 	)
 
 	for pos in seenTiles.keys():
+		var isWalkable
+		var isMissionTile
+		var isCityTile
 		var tile = ColorRect.new()
-
 		var sprite = tileSprites[pos]
-		var isWalkable = sprite.texture == get_tree().current_scene.tileTexture
-		var isMissionTile = sprite.texture == get_tree().current_scene.missionTexture
+		
+		if sprite is Sprite2D:
+			isWalkable = sprite.texture == get_tree().current_scene.tileTexture
+			isMissionTile = sprite.texture == get_tree().current_scene.missionTexture
+		else:
+			isCityTile = true
 
 		if isWalkable:
 			tile.color = Color.WHITE
 		elif isMissionTile:
 			tile.color = Color.YELLOW
+		elif isCityTile:
+			tile.color = Color.BROWN
 		else:
 			tile.color = Color.DARK_BLUE
 

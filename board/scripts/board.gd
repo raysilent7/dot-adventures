@@ -3,7 +3,7 @@ extends Node2D
 @export var tileTexture: Texture2D
 @export var decorTexture: Texture2D
 @export var missionTexture: Texture2D
-@export var cityTexture: Texture2D
+@onready var mainCity: Area2D = $world/tiles/mainCity
 @onready var player: Node2D = $world/player/playerBody
 @onready var tiles: Node2D = $world/tiles
 
@@ -26,8 +26,8 @@ func _ready():
 	drawMap()
 	fillEmptySpaces()
 	spawnPlayer()
-	placeMissionObjectiveOnMap()
 	placeMainCityOnMap()
+	placeMissionObjectiveOnMap()
 	player.get_node("playerCamera").position_smoothing_enabled = false
 	await get_tree().process_frame
 	player.get_node("playerCamera").position_smoothing_enabled = true
@@ -111,7 +111,7 @@ func spawnPlayer():
 func updateVisibility(playerTile: Vector2):
 	for pos in tileSprites.keys():
 		var dist = pos.distance_to(playerTile)
-		var sprite = tileSprites[pos]
+		var sprite = tileSprites.get(pos)
 		sprite.visible = dist <= visionRadius
 
 		if dist <= visionRadius:
@@ -163,6 +163,10 @@ func placeMissionObjectiveOnMap():
 func placeMainCityOnMap():
 	print("board | cidade posicionada ")
 	var pos = player.getCurrentTile()
-	var tile = tileSprites.get(pos)
-	objectiveTiles.set("CITY", pos)
-	tile.texture = cityTexture
+	tileSprites.get(pos).queue_free()
+	tileSprites[pos] = mainCity
+	mainCity.position = pos * tileSize + GameState.offset + GameState.diff
+	mainCity.connect("cityInteracted", Callable(self, "openCityPopup"))
+
+func openCityPopup():
+	get_tree().current_scene.get_node("mapUI/popupPanel").showObjectivePopup(obj, player.getCurrentTile(), "CITY")

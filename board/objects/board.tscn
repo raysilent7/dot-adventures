@@ -7,7 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://c7mw68x522d5f" path="res://board/objects/square mission.png" id="4_v1c5c"]
 [ext_resource type="Script" uid="uid://4tqffu8737a1" path="res://board/scripts/mapUi.gd" id="5_3t3t1"]
 [ext_resource type="Texture2D" uid="uid://dcx548832rpka" path="res://EAs/objects/square house.png" id="5_g6uvt"]
+[ext_resource type="Script" uid="uid://b43yldlbwef3m" path="res://board/scripts/mainCity.gd" id="6_eqwfa"]
 [ext_resource type="Script" uid="uid://dudgm1gv0ob48" path="res://board/scripts/popupUI.gd" id="7_r4swl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g6uvt"]
+size = Vector2(32, 32)
 
 [node name="board" type="Node2D" unique_id=231839482]
 z_index = -100
@@ -15,11 +19,19 @@ script = ExtResource("1_drnn6")
 tileTexture = ExtResource("2_nlxxq")
 decorTexture = ExtResource("3_ls1qu")
 missionTexture = ExtResource("4_v1c5c")
-cityTexture = ExtResource("5_g6uvt")
 
 [node name="world" type="Node2D" parent="." unique_id=1125477832]
 
 [node name="tiles" type="Node2D" parent="world" unique_id=714023097]
+
+[node name="mainCity" type="Area2D" parent="world/tiles" unique_id=1663687615]
+script = ExtResource("6_eqwfa")
+
+[node name="citySpr" type="Sprite2D" parent="world/tiles/mainCity" unique_id=1976366568]
+texture = ExtResource("5_g6uvt")
+
+[node name="cityCol" type="CollisionShape2D" parent="world/tiles/mainCity" unique_id=827697792]
+shape = SubResource("RectangleShape2D_g6uvt")
 
 [node name="player" parent="world" unique_id=1733245073 instance=ExtResource("3_s14mr")]
 
@@ -97,16 +109,29 @@ color = Color(0, 1, 0, 1)
 layout_mode = 2
 text = "Jogador (ponto atual)"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="mapUI/subs" unique_id=1292465191]
+[node name="yellow" type="HBoxContainer" parent="mapUI/subs" unique_id=1292465191]
 layout_mode = 2
 
-[node name="yellowColor" type="ColorRect" parent="mapUI/subs/HBoxContainer" unique_id=679980681]
+[node name="yellowColor" type="ColorRect" parent="mapUI/subs/yellow" unique_id=679980681]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 color = Color(1, 1, 0, 1)
 
-[node name="yellowSub" type="Label" parent="mapUI/subs/HBoxContainer" unique_id=882658622]
+[node name="yellowSub" type="Label" parent="mapUI/subs/yellow" unique_id=882658622]
 layout_mode = 2
 text = "Missão principal"
+
+[node name="brown" type="HBoxContainer" parent="mapUI/subs" unique_id=1963597182]
+layout_mode = 2
+
+[node name="brownColor" type="ColorRect" parent="mapUI/subs/brown" unique_id=1791349124]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+color = Color(0.67058825, 0.3529412, 0.3529412, 1)
+
+[node name="brownSub" type="Label" parent="mapUI/subs/brown" unique_id=1109086504]
+layout_mode = 2
+text = "Cidade inicial"
 
 [node name="popupPanel" type="Control" parent="mapUI" unique_id=1488110849]
 visible = false

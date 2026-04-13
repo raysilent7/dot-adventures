@@ -3,13 +3,16 @@ extends Node2D
 @export var tileTexture: Texture2D
 @export var decorTexture: Texture2D
 @onready var tiles = $world/tiles
+@onready var missionBoard = $world/missionBoard
+@onready var boardUI = $boardUI/missionBoardUI
+@onready var player = $world/player/playerBody
 
 var tileSize = 32
 var map = {}
 
 func _ready():
-	$world/missionBoard.position = Vector2(0, 0) * tileSize + GameState.offset + GameState.diff
-	$world/missionBoard.connect("boardInteracted", Callable(self, "openMissionBoard"))
+	missionBoard.position = Vector2(0, 0) * tileSize + GameState.offset + GameState.diff
+	missionBoard.connect("boardInteracted", Callable(self, "openMissionBoard"))
 	generateCity()
 	positionPlayer()
 	if MissionManager.mainMission != null:
@@ -33,12 +36,12 @@ func generateCity():
 
 func positionPlayer():
 	var startTile = Vector2(2, 2)
-	$world/player/playerBody.position = startTile * tileSize + GameState.offset + GameState.diff
-	$world/player/playerBody.currentTile = startTile
+	player.position = startTile * tileSize + GameState.offset + GameState.diff
+	player.currentTile = startTile
 	GameState.isInCity = true
 
 func openMissionBoard():
-	$boardUI/missionBoardUI.open()
+	boardUI.open()
 	get_tree().paused = true
 
 func onReturnToCity():
