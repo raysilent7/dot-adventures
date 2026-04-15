@@ -13,7 +13,7 @@ func _ready():
 	allUnits = battleManager.getAllUnits()
 
 func _process(delta):
-	if isProcessingTurn:
+	if isProcessingTurn or not GameState.isInBattle:
 		return
 
 	tickTimer += delta

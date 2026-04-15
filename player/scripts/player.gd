@@ -16,7 +16,7 @@ func _process(_delta):
 	controlPlayerActions()
 
 func controlPlayerActions():
-	if isMoving:
+	if isMoving or GameState.isInBattle:
 		return
 
 	var dir = Vector2.ZERO

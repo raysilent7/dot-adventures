@@ -2,6 +2,8 @@ extends Node
 
 var mainMission: Mission = null
 var sideMissions: Array[Mission] = []
+var currentBattleMission: Mission
+var fromMission: bool
 
 func acceptMainMission(acceptedMission: Mission):
 	if mainMission != null:

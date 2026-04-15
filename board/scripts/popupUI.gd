@@ -6,10 +6,13 @@ extends Control
 @onready var board = $"../.."
 
 var currentTile
+var currentObjective
 
 func showObjectivePopup(obj, playerTile, tileName):
+	currentObjective = obj
 	if tileName == "MAIN_MISSION":
 		print("mapUI | showObjectivePopup | missionPopup")
+		MissionManager.fromMission = true
 		if obj.hasEnemies:
 			fillMissionPopupInfo(obj, "Lutar", "Fugir", playerTile)
 		else:
@@ -52,8 +55,14 @@ func hidePopup():
 
 func onButton1Pressed() -> void:
 	print("missionPopup | botao 1 apertado")
-	MissionManager.completeMission(MissionManager.mainMission)
-	visitTileAndHidePopup()
+	if MissionManager.fromMission and currentObjective.hasEnemies:
+		GameState.isInBattle = true
+		board.get_node("world/player/playerBody/playerCamera").enabled = false
+		visitTileAndHidePopup()
+		var battle = preload("res://EAs/objects/battle.tscn").instantiate()
+		get_tree().current_scene.add_child(battle)
+	else:
+		visitTileAndHidePopup()
 
 func onButton2Pressed() -> void:
 	print("missionPopup | botao 2 apertado")

@@ -6,6 +6,8 @@ extends Control
 var tileSize = 16
 
 func _process(_delta: float) -> void:
+	if GameState.isInBattle:
+		return
 	if Input.is_action_just_pressed("map"):
 		mapUI.visible = not mapUI.visible
 		mapUI.get_node("subs").visible = not mapUI.get_node("subs").visible

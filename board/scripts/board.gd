@@ -6,6 +6,7 @@ extends Node2D
 @onready var mainCity: Area2D = $world/tiles/mainCity
 @onready var player: Node2D = $world/player/playerBody
 @onready var tiles: Node2D = $world/tiles
+@onready var mapUI: Control = $mapUI/popupPanel
 
 var visionRadius: int = 2
 var tileSize: int = 32
@@ -39,7 +40,7 @@ func _process(_delta: float) -> void:
 	for tileName in objectiveTiles:
 		if player.getCurrentTile() == objectiveTiles.get(tileName) and not visitedTiles.has(player.getCurrentTile()):
 			print("board | process | entrei no tileNameValidator: " + str(player.getCurrentTile() == objectiveTiles.get(tileName) and not visitedTiles.has(player.getCurrentTile())) + "tileName: " + tileName)
-			get_tree().current_scene.get_node("mapUI/popupPanel").showObjectivePopup(obj, player.getCurrentTile(), tileName)
+			mapUI.showObjectivePopup(obj, player.getCurrentTile(), tileName)
 
 func generateMap():
 	var start = Vector2(0,0)

@@ -3,6 +3,7 @@ class_name BattleManager
 
 @export var tileTexture: Texture2D
 @onready var battleUI = $"../battleUI"
+@onready var battle = $".."
 var BattleUnitScene: PackedScene = preload("res://EAs/objects/battleUnit.tscn")
 var BattleSlotScene: PackedScene = preload("res://EAs/objects/battleSlot.tscn")
 
@@ -148,10 +149,11 @@ func executeEnemyAI(unit: BattleUnit, turnManager: TurnManager):
 
 func onAttackButtonPressed() -> void:
 	var targets = getValidTargets(currentUnit.team)
-	if currentUnit.canAttackBackLine:
+	var front = getFrontlineTargets(targets)
+	if currentUnit.canAttackBackLine or front.size() == 0:
 		battleUI.showTargetSelection(targets)
 	else:
-		battleUI.showTargetSelection(getFrontlineTargets(targets))
+		battleUI.showTargetSelection(front)
 
 func executeAttack(attacker: BattleUnit, target: BattleUnit, turnManager: TurnManager):
 	var damage = max(attacker.power - target.defense, 1)
@@ -161,7 +163,8 @@ func executeAttack(attacker: BattleUnit, target: BattleUnit, turnManager: TurnMa
 		print(target.unitName + " morreu")
 
 	if checkBattleEnd():
-		return
+		get_tree().current_scene.player.get_node("playerCamera").enabled = true
+		battle.queue_free()
 
 	turnManager.onUnitTurnFinished(attacker)
 
@@ -178,11 +181,15 @@ func checkBattleEnd() -> bool:
 			anyEnemyAlive = true
 
 	if not anyPlayerAlive:
-		print("Derrota")
+		if MissionManager.fromMission:
+			MissionManager.abandonMainMission()
+		GameState.isInBattle = false
 		return true
 
 	if not anyEnemyAlive:
-		print("Vitória")
+		if MissionManager.fromMission:
+			MissionManager.completeMission(MissionManager.mainMission)
+		GameState.isInBattle = false
 		return true
 
 	return false
@@ -224,8 +231,8 @@ func getBacklineTargets(targets):
 	return targets.filter(func(t): return t.row == "back")
 
 func getRandomTarget(canAttackBackLine, targets):
-	if canAttackBackLine:
+	var front = getFrontlineTargets(targets)
+	if canAttackBackLine or front.size() == 0:
 		return targets[randi() % targets.size()]
 	else:
-		targets = getFrontlineTargets(targets)
-		return targets[randi() % targets.size()]
+		return front[randi() % front.size()]
