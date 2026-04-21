@@ -15,6 +15,7 @@ enum Behavior {
 var behavior = Behavior.LINE_BREAKER
 var unitName: String
 var maxHp: int = 100
+var maxMp: int = 50
 var power: int = 10
 var defense: int = 5
 var speed: int = 10
