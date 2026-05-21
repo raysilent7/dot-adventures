@@ -1,6 +1,5 @@
 extends Node2D
 
-@export var tileTexture: Texture2D
 @export var decorTexture: Texture2D
 @export var missionTexture: Texture2D
 @onready var mainCity: Area2D = $world/tiles/mainCity
@@ -8,6 +7,10 @@ extends Node2D
 @onready var tiles: Node2D = $world/tiles
 @onready var mapUI: Control = $mapUI/popupPanel
 
+var tileTextures: Array = [
+	preload("res://board/objects/square1.png"),
+	preload("res://board/objects/square2.png")
+]
 var visionRadius: int = 2
 var tileSize: int = 32
 var numTiles: int = 200
@@ -96,7 +99,7 @@ func getValidBoundaryTile():
 func drawMap():
 	for pos in map.keys():
 		var tile = Sprite2D.new()
-		tile.texture = tileTexture
+		tile.texture = tileTextures.pick_random()
 		tile.position = pos * tileSize + GameState.offset + GameState.diff
 		tiles.add_child(tile)
 		drawnTiles.append(pos)

@@ -1,5 +1,5 @@
 extends Node
-class_name Skill
+class_name SkillDatabase
 
 var physicalSkills: Array = [
 	{

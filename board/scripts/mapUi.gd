@@ -54,7 +54,7 @@ func updateMap(seenTiles, tileSprites):
 		var sprite = tileSprites[pos]
 		
 		if sprite is Sprite2D:
-			isWalkable = sprite.texture == get_tree().current_scene.tileTexture
+			isWalkable = get_tree().current_scene.tileTextures.has(sprite.texture)
 			isMissionTile = sprite.texture == get_tree().current_scene.missionTexture
 		else:
 			isCityTile = true

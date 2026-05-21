@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bpv1h24morwd4"]
 
 [ext_resource type="Script" uid="uid://hpxh8o7yq5sx" path="res://EAs/scripts/battle/battleManager.gd" id="1_svahc"]
-[ext_resource type="Texture2D" uid="uid://ccg2fv3maqqmh" path="res://board/objects/square.png" id="2_lip3d"]
+[ext_resource type="Texture2D" uid="uid://bvcvmtqrlvhut" path="res://board/objects/square2.png" id="2_duaeo"]
 [ext_resource type="Script" uid="uid://cg1jsisxyqyjh" path="res://EAs/scripts/battle/turnManager.gd" id="3_jtif1"]
 [ext_resource type="Script" uid="uid://dmbew1q2wvs4l" path="res://EAs/scripts/battle/battleUI.gd" id="4_duaeo"]
 
@@ -14,7 +14,7 @@ metadata/_edit_lock_ = true
 
 [node name="battleManager" type="Node2D" parent="." unique_id=1351344805]
 script = ExtResource("1_svahc")
-tileTexture = ExtResource("2_lip3d")
+tileTexture = ExtResource("2_duaeo")
 metadata/_edit_lock_ = true
 
 [node name="turnManager" type="Node2D" parent="." unique_id=751184092]

@@ -13,6 +13,7 @@ const GRID_ROWS = 2
 const SIDE_SPACING = 64
 const PLAYER_TEAM = "player"
 
+var skillManager: SkillManager = SkillManager.new()
 var playerSlots: Array[BattleSlot]
 var enemySlots: Array[BattleSlot]
 var playerTiles = {}
@@ -87,7 +88,7 @@ func spawnTestUnits():
 		unit.unitName = "player" + str(i)
 		unit.team = "player"
 		unit.maxHp = 100
-		unit.power = randi_range(30, 50)
+		unit.power = randi_range(20, 30)
 		unit.defense = 10
 		unit.speed = randi_range(20, 30)
 		unit.row = "front" if i <= 1 else "back"
@@ -99,10 +100,10 @@ func spawnTestUnits():
 		var unit = BattleUnitScene.instantiate()
 		unit.unitName = "enemy" + str(i)
 		unit.team = "enemy"
-		unit.maxHp = 50
-		unit.power = randi_range(20, 45)
-		unit.defense = 10
-		unit.speed = randi_range(15, 25)
+		unit.maxHp = 80
+		unit.power = randi_range(15, 25)
+		unit.defense = 8
+		unit.speed = randi_range(20, 25)
 		unit.row = "front" if i <= 1 else "back"
 		unit.behavior = BattleUnit.Behavior.LINE_BREAKER if i <= 1 else BattleUnit.Behavior.LINE_PIERCER
 		unit.canAttackBackLine = unit.behavior == BattleUnit.Behavior.LINE_PIERCER
@@ -143,7 +144,7 @@ func executeEnemyAI(unit: BattleUnit, turnManager: TurnManager):
 			print("alvo escolhido: " + chosenTarget.name)
 	
 	if chosenTarget.team != PLAYER_TEAM:
-		pass #implementar logica de buff/cura quando houver um sistema de habilidades
+		executeSkill(unit, Skill.new(), allies, turnManager)
 	else:
 		executeAttack(unit, chosenTarget, turnManager)
 
@@ -236,3 +237,7 @@ func getRandomTarget(canAttackBackLine, targets):
 		return targets[randi() % targets.size()]
 	else:
 		return front[randi() % front.size()]
+
+func executeSkill(user, skill, targets, turnManager):
+	skillManager.executeSkill(user, skill, targets, self)
+	turnManager.onUnitTurnFinished(user)

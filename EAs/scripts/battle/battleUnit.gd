@@ -17,7 +17,9 @@ var unitName: String
 var maxHp: int = 100
 var maxMp: int = 50
 var power: int = 10
-var defense: int = 5
+var magicPower: int = 5
+var defense: int = 0
+var magicResistance: int = 0
 var speed: int = 10
 var currentHp: int
 var speedMeter: float = 0.0
@@ -26,6 +28,7 @@ var row: String = "front"
 var slotPosition: int = 1
 var canAttackBackLine: bool = false
 var slot = null
+var skills = []
 
 func _ready():
 	z_index = 20
