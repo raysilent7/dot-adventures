@@ -94,6 +94,7 @@ func spawnTestUnits():
 		unit.row = "front" if i <= 1 else "back"
 		unit.behavior = BattleUnit.Behavior.LINE_BREAKER if i <= 1 else BattleUnit.Behavior.LINE_PIERCER
 		unit.canAttackBackLine = unit.behavior == BattleUnit.Behavior.LINE_PIERCER
+		unit.slotPosition = i
 		playerSlots[i].placeUnit(unit)
 
 	for i in range(enemySlots.size()):
@@ -107,6 +108,7 @@ func spawnTestUnits():
 		unit.row = "front" if i <= 1 else "back"
 		unit.behavior = BattleUnit.Behavior.LINE_BREAKER if i <= 1 else BattleUnit.Behavior.LINE_PIERCER
 		unit.canAttackBackLine = unit.behavior == BattleUnit.Behavior.LINE_PIERCER
+		unit.slotPosition = i
 		enemySlots[i].placeUnit(unit)
 
 func getAllUnits() -> Array:
