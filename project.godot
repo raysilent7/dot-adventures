@@ -28,6 +28,10 @@ window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
 
+[global_group]
+
+player="the player"
+
 [input]
 
 up={
