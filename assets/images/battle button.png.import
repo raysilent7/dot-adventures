@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cn2q0u321okft"
-path="res://.godot/imported/square.png-b067909ca724d0b11b4bc46e4220044f.ctex"
+uid="uid://stojhr152xeq"
+path="res://.godot/imported/battle button.png-470ca357aea46ef00915af5c03614fd4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/square.png"
-dest_files=["res://.godot/imported/square.png-b067909ca724d0b11b4bc46e4220044f.ctex"]
+source_file="res://assets/images/battle button.png"
+dest_files=["res://.godot/imported/battle button.png-470ca357aea46ef00915af5c03614fd4.ctex"]
 
 [params]
 

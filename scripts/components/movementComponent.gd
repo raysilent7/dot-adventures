@@ -5,7 +5,7 @@ class_name MovementComponent extends Node
 var map: Dictionary
 var moveDuration: float = 0.5
 var currentTile: Vector2
-var isMoving: bool
+var isMoving: bool = false
 
 func _ready() -> void:
 	var scene = get_tree().current_scene
@@ -14,8 +14,8 @@ func _ready() -> void:
 func move(dir: Vector2):
 	var target = currentTile + dir
 	#var oldTile = currentTile
-	if map.has(target):
-		isMoving = true
+	if map.has(target) and not isMoving:
+		player.isMoving = true
 		#var board = get_tree().current_scene
 
 		#if not GameState.isInCity:
@@ -27,4 +27,4 @@ func move(dir: Vector2):
 		var tween = create_tween()
 		tween.tween_property(player, "position", targetCalc, moveDuration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 		currentTile = target
-		isMoving = false
+		tween.finished.connect(func(): player.isMoving = false)

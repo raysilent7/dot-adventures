@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bpv1h24morwd4"]
 
 [ext_resource type="Script" uid="uid://hpxh8o7yq5sx" path="res://EAs/scripts/battle/battleManager.gd" id="1_svahc"]
-[ext_resource type="Texture2D" uid="uid://ccg2fv3maqqmh" path="res://board/objects/square.png" id="2_lip3d"]
+[ext_resource type="Texture2D" uid="uid://bvcvmtqrlvhut" path="res://board/objects/square2.png" id="2_duaeo"]
 [ext_resource type="Script" uid="uid://cg1jsisxyqyjh" path="res://EAs/scripts/battle/turnManager.gd" id="3_jtif1"]
 [ext_resource type="Script" uid="uid://dmbew1q2wvs4l" path="res://EAs/scripts/battle/battleUI.gd" id="4_duaeo"]
 
@@ -14,7 +14,7 @@ metadata/_edit_lock_ = true
 
 [node name="battleManager" type="Node2D" parent="." unique_id=1351344805]
 script = ExtResource("1_svahc")
-tileTexture = ExtResource("2_lip3d")
+tileTexture = ExtResource("2_duaeo")
 metadata/_edit_lock_ = true
 
 [node name="turnManager" type="Node2D" parent="." unique_id=751184092]
@@ -26,6 +26,9 @@ metadata/_edit_lock_ = true
 
 [node name="unitContainer" type="Node2D" parent="." unique_id=1643112923]
 metadata/_edit_lock_ = true
+
+[node name="buttons" type="Node2D" parent="." unique_id=1315642809]
+visible = false
 
 [node name="battleUI" type="CanvasLayer" parent="." unique_id=1409866674]
 script = ExtResource("4_duaeo")
@@ -78,25 +81,6 @@ offset_top = -31.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "Item"
-
-[node name="targetPanel" type="Control" parent="battleUI" unique_id=1948324295]
-visible = false
-layout_mode = 3
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="targetContainer" type="HBoxContainer" parent="battleUI/targetPanel" unique_id=28474074]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="descriptionPanel" type="Label" parent="battleUI" unique_id=32348082]
 offset_right = 40.0
