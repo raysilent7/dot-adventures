@@ -5,13 +5,14 @@ extends Node2D
 @onready var tiles = $world/tiles
 @onready var missionBoard = $world/missionBoard
 @onready var boardUI = $boardUI/missionBoardUI
-@onready var player = $world/player/playerBody
+@onready var player: CharacterBody2D = $world/Player
+
 
 var tileSize = 32
 var map = {}
 
 func _ready():
-	missionBoard.position = Vector2(0, 0) * tileSize + GameState.offset + GameState.diff
+	missionBoard.position = Vector2(0, 0) * tileSize
 	missionBoard.connect("boardInteracted", Callable(self, "openMissionBoard"))
 	generateCity()
 	positionPlayer()
@@ -28,7 +29,7 @@ func generateCity():
 		for y in range(5):
 			var tile = Sprite2D.new()
 			tile.texture = tileTexture
-			tile.position = Vector2(x, y) * tileSize + GameState.offset + GameState.diff
+			tile.position = Vector2(x, y) * tileSize
 			
 			map[Vector2(x, y)] = true
 			
@@ -36,8 +37,8 @@ func generateCity():
 
 func positionPlayer():
 	var startTile = Vector2(2, 2)
-	player.position = startTile * tileSize + GameState.offset + GameState.diff
-	player.currentTile = startTile
+	player.position = startTile * tileSize
+	player.movementComponent.currentTile = startTile
 	GameState.isInCity = true
 
 func openMissionBoard():

@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://c047dlx67tdpa"]
+
+[ext_resource type="Script" uid="uid://cigstbnhieeda" path="res://scripts/entities/battleUnit.gd" id="1_2vwpy"]
+[ext_resource type="Texture2D" uid="uid://bt122vp5o2sax" path="res://assets/images/player.png" id="2_o4hx6"]
+[ext_resource type="Texture2D" uid="uid://wv3guxmqno0g" path="res://assets/images/healthBarDepleted.png" id="3_7aa3h"]
+[ext_resource type="Texture2D" uid="uid://lcqmtagcs6f" path="res://assets/images/healthBar.png" id="4_3kbi1"]
+[ext_resource type="Texture2D" uid="uid://qv3j8575v0e3" path="res://assets/images/speedBarDepleted.png" id="5_khqv5"]
+[ext_resource type="Texture2D" uid="uid://c8s2kfo7yvw4l" path="res://assets/images/speedBar.png" id="6_s7d0q"]
+
+[node name="battleUnit" type="Node2D" unique_id=1146262304]
+script = ExtResource("1_2vwpy")
+
+[node name="unitTexture" type="Sprite2D" parent="." unique_id=1367592338]
+texture = ExtResource("2_o4hx6")
+
+[node name="healthBar" type="TextureProgressBar" parent="." unique_id=489372798]
+custom_minimum_size = Vector2(32, 4)
+offset_left = -16.0
+offset_top = -11.0
+offset_right = 16.0
+offset_bottom = -7.0
+texture_under = ExtResource("3_7aa3h")
+texture_progress = ExtResource("4_3kbi1")
+tint_under = Color(1, 0.82096136, 0.88417995, 1)
+tint_over = Color(1, 0, 1, 1)
+tint_progress = Color(1, 1, 0, 1)
+
+[node name="speedBar" type="TextureProgressBar" parent="." unique_id=1762894721]
+custom_minimum_size = Vector2(32, 4)
+offset_left = -16.0
+offset_top = -13.0
+offset_right = 16.0
+offset_bottom = -9.0
+texture_under = ExtResource("5_khqv5")
+texture_progress = ExtResource("6_s7d0q")
+tint_under = Color(0, 1, 1, 1)
+tint_over = Color(1, 0, 1, 1)
+tint_progress = Color(1, 1, 0, 1)
