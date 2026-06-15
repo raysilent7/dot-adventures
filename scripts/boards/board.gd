@@ -8,8 +8,8 @@ extends Node2D
 @onready var mapUI: Control = $mapUI/popupPanel
 
 var tileTextures: Array = [
-	preload("res://board/objects/square1.png"),
-	preload("res://board/objects/square2.png")
+	preload("res://assets/images/square1.png"),
+	preload("res://assets/images/square2.png")
 ]
 var visionRadius: int = 2
 var tileSize: int = 32

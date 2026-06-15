@@ -7,8 +7,14 @@ extends Node2D
 var isMoving: bool = false
 
 func _process(_delta: float) -> void:
-	if not isMoving or not GameState.isInBattle:
-		inputComponent.readInputs()
+	if isMoving or GameState.isInBattle:
+		print("isMoving" + str(isMoving))
+		print("isInBattle" + str(GameState.isInBattle))
+		return
+
+	inputComponent.readInputs()
+	
+	if inputComponent.dir != Vector2.ZERO:
 		movementComponent.move(inputComponent.dir)
 		turnSprite(inputComponent.dir)
 

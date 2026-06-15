@@ -1,6 +1,7 @@
 class_name MovementComponent extends Node
 
-@onready var player: CharacterBody2D = $".."
+@export var inputComponent: InputComponent
+@export var player: CharacterBody2D
 
 var map: Dictionary
 var moveDuration: float = 0.5

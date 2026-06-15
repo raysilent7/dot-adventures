@@ -9,16 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://dg0jow15nf4sq" path="res://scenes/entities/player.tscn" id="6_id7ru"]
 [ext_resource type="Script" uid="uid://dudgm1gv0ob48" path="res://scripts/UI/popupUI.gd" id="7_r4swl"]
 
-[sub_resource type="Resource" id="Resource_mjpcc"]
-metadata/__load_path__ = "res://board/objects/square.png"
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g6uvt"]
 size = Vector2(32, 32)
 
 [node name="board" type="Node2D" unique_id=231839482]
 z_index = -100
 script = ExtResource("1_drnn6")
-tileTexture = SubResource("Resource_mjpcc")
 decorTexture = ExtResource("3_ls1qu")
 missionTexture = ExtResource("4_v1c5c")
 

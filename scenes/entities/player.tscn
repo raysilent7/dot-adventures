@@ -25,8 +25,10 @@ shape = SubResource("RectangleShape2D_42nxq")
 script = ExtResource("3_42nxq")
 metadata/_custom_type_script = "uid://bkcykkjvwsg6r"
 
-[node name="MovementComponent" type="Node" parent="." unique_id=13709882]
+[node name="MovementComponent" type="Node" parent="." unique_id=13709882 node_paths=PackedStringArray("inputComponent", "player")]
 script = ExtResource("4_5u6hq")
+inputComponent = NodePath("../InputComponent")
+player = NodePath("..")
 metadata/_custom_type_script = "uid://dvoqua03qb6dn"
 
 [node name="HealthComponent" type="Node" parent="." unique_id=4255708]
