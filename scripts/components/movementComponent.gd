@@ -15,7 +15,11 @@ func _ready() -> void:
 func move(dir: Vector2):
 	var target = currentTile + dir
 	#var oldTile = currentTile
+	print("aconteci")
+	print(str(map.has(target)))
+	print(map)
 	if map.has(target) and not isMoving:
+		print("aconteci2")
 		player.isMoving = true
 		#var board = get_tree().current_scene
 

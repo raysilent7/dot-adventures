@@ -1,28 +1,20 @@
 class_name HealthComponent extends Node
 
-@export var maxHp: int
-@export var maxMp: int
-
+@export var maxHp: int = 100
 var hp: int
-var mp: int
+
+signal healthChanged
+signal died
 
 func _ready() -> void:
 	hp = maxHp
-	mp = maxMp
 
 func healHp(amount: int) -> void:
-	var newHp = hp + amount
-	if newHp > maxHp:
-		hp = maxHp
-	else:
-		hp = newHp
+	hp = clamp(hp + amount, 0, maxHp)
+	healthChanged.emit(hp, maxHp)
 
 func takeDamage(amount: int) -> void:
-	var newHp = hp - amount
-	if newHp <= 0:
-		killUnit()
-	else:
-		hp = newHp
-
-func killUnit() -> void:
-	call_deferred("queue_free")
+	hp = clamp(hp - amount, 0, maxHp)
+	healthChanged.emit(hp, maxHp)
+	if hp == 0:
+		died.emit()

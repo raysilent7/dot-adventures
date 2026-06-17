@@ -8,8 +8,6 @@ var isMoving: bool = false
 
 func _process(_delta: float) -> void:
 	if isMoving or GameState.isInBattle:
-		print("isMoving" + str(isMoving))
-		print("isInBattle" + str(GameState.isInBattle))
 		return
 
 	inputComponent.readInputs()
@@ -18,7 +16,7 @@ func _process(_delta: float) -> void:
 		movementComponent.move(inputComponent.dir)
 		turnSprite(inputComponent.dir)
 
-func turnSprite(dir: Vector2):
+func turnSprite(dir: Vector2) -> void:
 	if dir == Vector2(0, -1):
 		sprite.rotation_degrees = -90
 	elif dir == Vector2(0, 1):
@@ -28,8 +26,12 @@ func turnSprite(dir: Vector2):
 	elif dir == Vector2(1, 0):
 		sprite.rotation_degrees = 0
 
-func setCurrentTile(tile: Vector2):
+func setCurrentTile(tile: Vector2) -> void:
+	position = tile * GameState.tileSize
 	movementComponent.currentTile = tile
 
 func getCurrentTile() -> Vector2:
 	return movementComponent.currentTile
+
+func setMap(map: Dictionary) -> void:
+	movementComponent.map = map

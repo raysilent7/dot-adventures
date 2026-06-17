@@ -13,20 +13,15 @@ var tileTextures: Array = [
 ]
 var visionRadius: int = 2
 var tileSize: int = 32
-var numTiles: int = 200
+
 var obj
 var objectiveTiles = {}
-var map = {}
-var tileSprites = {}
-var seenTiles = {}
-var boundary = []
-var directions = [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]
+
 var drawnTiles = []
 var visitedTiles = []
 
 func _ready():
 	generateMap()
-	print("board | map size: " + str(map.size()))
 	drawMap()
 	fillEmptySpaces()
 	spawnPlayer()
@@ -107,7 +102,7 @@ func drawMap():
 
 func spawnPlayer():
 	var randomPos = drawnTiles[randi() % drawnTiles.size()]
-	player.position = randomPos * tileSize + GameState.offset + GameState.diff
+	player.position = randomPos * GameState.tileSize
 	player.setCurrentTile(randomPos)
 	updateVisibility(randomPos)
 	GameState.isInCity = false

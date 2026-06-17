@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dg5gv1k4gsdl2" path="res://assets/images/square board.png" id="5_p6nnq"]
 [ext_resource type="PackedScene" uid="uid://dg0jow15nf4sq" path="res://scenes/entities/player.tscn" id="6_yvt8d"]
 [ext_resource type="Script" uid="uid://xcrgrxxwglg" path="res://scripts/UI/missionBoardUI.gd" id="7_a8exf"]
+[ext_resource type="Script" uid="uid://banqg1gflul50" path="res://scripts/components/mapGenerator.gd" id="8_r461w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppux4"]
 size = Vector2(32, 32)
@@ -17,22 +18,24 @@ tileTexture = ExtResource("2_r461w")
 decorTexture = ExtResource("3_cg4pm")
 metadata/_edit_lock_ = true
 
-[node name="world" type="Node2D" parent="." unique_id=1478022341]
+[node name="MapComponent" type="Node" parent="." unique_id=167086756]
+script = ExtResource("8_r461w")
+metadata/_custom_type_script = "uid://banqg1gflul50"
 
-[node name="tiles" type="Node2D" parent="world" unique_id=1801777014]
+[node name="tiles" type="Node2D" parent="." unique_id=1801777014]
 metadata/_edit_lock_ = true
 
-[node name="missionBoard" type="Area2D" parent="world" unique_id=895188403]
+[node name="missionBoard" type="Area2D" parent="tiles" unique_id=895188403]
 position = Vector2(16, 16)
 script = ExtResource("5_eei1n")
 
-[node name="boardSpr" type="Sprite2D" parent="world/missionBoard" unique_id=114146703]
+[node name="boardSpr" type="Sprite2D" parent="tiles/missionBoard" unique_id=114146703]
 texture = ExtResource("5_p6nnq")
 
-[node name="boardCol" type="CollisionShape2D" parent="world/missionBoard" unique_id=1078082442]
+[node name="boardCol" type="CollisionShape2D" parent="tiles/missionBoard" unique_id=1078082442]
 shape = SubResource("RectangleShape2D_ppux4")
 
-[node name="Player" parent="world" unique_id=345681391 instance=ExtResource("6_yvt8d")]
+[node name="Player" parent="." unique_id=345681391 instance=ExtResource("6_yvt8d")]
 
 [node name="boardUI" type="CanvasLayer" parent="." unique_id=255346485]
 process_mode = 3

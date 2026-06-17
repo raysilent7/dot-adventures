@@ -2,20 +2,20 @@ extends Node2D
 
 @export var tileTexture: Texture2D
 @export var decorTexture: Texture2D
-@onready var tiles = $world/tiles
-@onready var missionBoard = $world/missionBoard
+@onready var tiles: Node2D = $tiles
+@onready var missionBoard: Area2D = $tiles/missionBoard
 @onready var boardUI = $boardUI/missionBoardUI
-@onready var player: CharacterBody2D = $world/Player
+@onready var player: CharacterBody2D = $Player
+@onready var mapComponent: MapComponent = $MapComponent
 
+var map: Dictionary = {}
 
-var tileSize = 32
-var map = {}
-
-func _ready():
-	missionBoard.position = Vector2(0, 0) * tileSize
+func _ready() -> void:
+	missionBoard.position = Vector2(0, 0) * GameState.tileSize
 	missionBoard.connect("boardInteracted", Callable(self, "openMissionBoard"))
-	generateCity()
-	positionPlayer()
+	map = mapComponent.generateMap(40)
+	mapComponent.drawMap(tiles)
+	spawnPlayer()
 	if MissionManager.mainMission != null:
 		if MissionManager.mainMission.isCompleted:
 			giveRewards()
@@ -24,21 +24,10 @@ func _ready():
 	MissionManager.abandonMainMission()
 	MissionManager.abandonAllSideMissions()
 
-func generateCity():
-	for x in range(5):
-		for y in range(5):
-			var tile = Sprite2D.new()
-			tile.texture = tileTexture
-			tile.position = Vector2(x, y) * tileSize
-			
-			map[Vector2(x, y)] = true
-			
-			tiles.add_child(tile)
-
-func positionPlayer():
-	var startTile = Vector2(2, 2)
-	player.position = startTile * tileSize
-	player.movementComponent.currentTile = startTile
+func spawnPlayer():
+	var randomPos = mapComponent.drawnTiles[randi() % mapComponent.drawnTiles.size()]
+	player.setCurrentTile(randomPos)
+	player.setMap(map)
 	GameState.isInCity = true
 
 func openMissionBoard():
