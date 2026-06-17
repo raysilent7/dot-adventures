@@ -35,3 +35,6 @@ func getCurrentTile() -> Vector2:
 
 func setMap(map: Dictionary) -> void:
 	movementComponent.map = map
+
+func setPlayerOnBoard(isOnBoard: bool) -> void:
+	inputComponent.isOnBoard = isOnBoard

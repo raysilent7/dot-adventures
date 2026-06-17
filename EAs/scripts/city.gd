@@ -1,7 +1,5 @@
 extends Node2D
 
-@export var tileTexture: Texture2D
-@export var decorTexture: Texture2D
 @onready var tiles: Node2D = $tiles
 @onready var missionBoard: Area2D = $tiles/missionBoard
 @onready var boardUI = $boardUI/missionBoardUI
@@ -16,25 +14,19 @@ func _ready() -> void:
 	map = mapComponent.generateMap(40)
 	mapComponent.drawMap(tiles)
 	spawnPlayer()
-	if MissionManager.mainMission != null:
-		if MissionManager.mainMission.isCompleted:
-			giveRewards()
-		else:
-			print("city | missao falhou")
-	MissionManager.abandonMainMission()
-	MissionManager.abandonAllSideMissions()
+	manageMissionsAfterReturningCity()
 
-func spawnPlayer():
+func spawnPlayer() -> void:
 	var randomPos = mapComponent.drawnTiles[randi() % mapComponent.drawnTiles.size()]
 	player.setCurrentTile(randomPos)
 	player.setMap(map)
 	GameState.isInCity = true
 
-func openMissionBoard():
+func openMissionBoard() -> void:
 	boardUI.open()
 	get_tree().paused = true
 
-func onReturnToCity():
+func onReturnToCity() -> void:
 	if MissionManager.mainMission != null and not MissionManager.mainMission.isCompleted:
 		print("city | missao principal falhou")
 		MissionManager.abandonMainMission()
@@ -45,6 +37,15 @@ func onReturnToCity():
 				print("city | missao secundaria falhou:", m.title)
 		MissionManager.abandonAllSideMissions()
 
-func giveRewards():
+func manageMissionsAfterReturningCity() -> void:
+	if MissionManager.mainMission != null:
+		if MissionManager.mainMission.isCompleted:
+			giveRewards()
+		else:
+			print("city | missao falhou")
+	MissionManager.abandonMainMission()
+	MissionManager.abandonAllSideMissions()
+
+func giveRewards() -> void:
 	#completar depois quando tiver sistema de itens, dinheiro e inventario
 	pass

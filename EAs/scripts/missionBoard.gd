@@ -1,23 +1,17 @@
 extends Area2D
 
 var playerInRange = false
-signal boardInteracted
 
 func _ready():
-	connect("body_entered", Callable(self, "onBodyEntered"))
-	connect("body_exited", Callable(self, "onBodyExited"))
+	body_entered.connect(onBodyEntered)
+	body_exited.connect(onBodyExited)
 
-func _process(_delta: float) -> void:
-	if playerInRange and Input.is_action_just_pressed("interact"):
-		print("mission board | player interagiu com o quadro")
-		emit_signal("boardInteracted")
-
-func onBodyEntered(body):
+func onBodyEntered(body) -> void:
 	if body.is_in_group("player"):
-		playerInRange = true
+		body.setPlayerOnBoard(true)
 		print("mission board | player entrou no quadro")
 
-func onBodyExited(body):
+func onBodyExited(body) -> void:
 	if body.is_in_group("player"):
-		playerInRange = false
+		body.setPlayerOnBoard(true)
 		print("mission board | player saiu do quadro")
